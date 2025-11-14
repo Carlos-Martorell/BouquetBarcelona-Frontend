@@ -5,7 +5,13 @@
   "projects": {
     "BouquetBarcelona-app": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+          "@schematics/angular:component": {
+            "style": "css",
+            "standalone": true,  
+            "changeDetection": "OnPush"  
+          }
+        },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -88,5 +94,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "fcd6d371-6348-4e91-90b1-1265c7f3a66a"
   }
 }
