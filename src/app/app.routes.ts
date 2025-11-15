@@ -1,3 +1,13 @@
 import { Routes } from '@angular/router';
-
-export const routes: Routes = [];
+import { FlowersManagement } from './features/admin/pages/flowers-management/flowers-management';
+export const routes: Routes = [
+    {
+        path:'',
+        redirectTo: 'admin/flowers',
+        pathMatch: 'full'
+    },
+    {
+        path:'admin/flowers',
+        component: 'FlowersManagement'
+    }
+];
