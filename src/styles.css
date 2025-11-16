@@ -6,6 +6,40 @@
 @import "flowbite/src/themes/minimal";
 
 
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+
+
+@theme {
+  --color-text: #2d3748;          /* Carbón */
+  --color-background: #f7fafc;    /* Gris hielo */
+  --color-primary: #744c3e;       /* Chocolate francés */
+  --color-secondary: #c9a689;     /* Arena */
+  --color-accent: #d4a5a5;        /* Rosa viejo */
+  --color-success: #8fa998;       /* Salvia */
+  --color-error: #b85450;         /* Burdeos suave */
+  --color-border: #e8e3df;        /* Pergamino */
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply px-12 bg-primary  hover:bg-success text-background whitespace-nowrap font-semibold rounded-md transition-all transform hover:scale-105 shadow-xl;
+  }
+}
+
 .spinner {
     width: 60px; 
     height: 60px;
