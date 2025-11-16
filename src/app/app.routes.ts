@@ -8,6 +8,6 @@ export const routes: Routes = [
     },
     {
         path:'admin/flowers',
-        component: 'FlowersManagement'
+        component: FlowersManagement
     }
 ];

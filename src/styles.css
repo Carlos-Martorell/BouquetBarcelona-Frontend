@@ -1,2 +1,19 @@
 
 @import "tailwindcss";
+
+/* MINIMAL THEME */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "flowbite/src/themes/minimal";
+
+
+.spinner {
+    width: 60px; 
+    height: 60px;
+    margin: 0 auto 1rem; 
+    
+    /* Referencia a la imagen */
+    background-image: url('./assets/images/Margarita.png'); 
+    background-size: contain; 
+    /* background-repeat: no-repeat; */
+    background-position: center;
+}
