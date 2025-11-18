@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core'
 import { FlowersService } from '@core/services/flowers';
 
 
@@ -9,16 +9,16 @@ import { FlowersService } from '@core/services/flowers';
   styleUrl: './flowers-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FlowersManagement implements OnInit {
+export default class FlowersManagement implements OnInit {
 
   flowersService = inject(FlowersService);
   
-  //Signals
+  
   isLoading = signal(false);
   errorMessage = signal<string|null>(null);
   isFormOpen = signal(false);
   editingFlowerId = signal<string|null>(null);
-  //Computed signals
+  
   flowerCount = computed(() => this.flowersService.flowers().length)
   hasFlowers = computed(() => this.flowerCount() > 0)
 
@@ -26,6 +26,8 @@ export class FlowersManagement implements OnInit {
   ngOnInit() {
     this.loadFlowers();
   }
+
+
 
   loadFlowers() {
     this.isLoading.set(true);
