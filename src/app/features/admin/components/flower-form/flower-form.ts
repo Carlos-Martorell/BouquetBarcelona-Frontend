@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FlowersService } from '@core/services/flowers';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { FlowerFormService } from '../../services/flower-form';
 
 @Component({
   selector: 'app-flower-form',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './flower-form.html',
   styleUrl: './flower-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +20,7 @@ export class FlowerForm implements OnInit {
 
   isSubmitting = signal(false);
   errorMessage = signal<string|null>(null);
-  hasMinimImages = computed(() => this.imageUrlsArray.length > 3)
+  hasMinimImages = computed(() => this.imageUrlsArray.length >= 3)
   
   constructor() {
     effect(() => {
@@ -54,8 +54,8 @@ export class FlowerForm implements OnInit {
     })
   }
 
-  get imageUrlsArray():FormArray {
-    return this.flowerForm.get('imageUrls') as FormArray
+  get imageUrlsArray():FormArray<FormControl<string | null>> {
+    return this.flowerForm.get('imageUrls') as FormArray<FormControl<string | null>>
   }
 
   addImageUrlField () {
@@ -93,13 +93,14 @@ export class FlowerForm implements OnInit {
   }
 
   resetForm() {
+    if (!this.flowerForm) return;
+
     this.flowerForm.reset({
       name: '',
       price: 0,
       description: '',
       category: '',
-      stock: 0,
-      imageUrl: ''
+      stock: 0
     })
     this.imageUrlsArray.clear();
     for(let i = 0; i < 3; i++) {
@@ -117,7 +118,7 @@ export class FlowerForm implements OnInit {
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
 
-    const images = this.imageUrlsArray.value.filter((url: string) => url && url.trim());
+    const images = this.imageUrlsArray.value.filter((url): url is string => url !== null && url.trim() !== '');
     if(images.length < 3) {
       this.errorMessage.set('Debes añadir al menos 3 imagenes.');
       this.isSubmitting.set(false);

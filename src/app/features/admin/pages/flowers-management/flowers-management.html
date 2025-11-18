@@ -1,44 +1,3 @@
-<!-- <section>
-    @if(isLoading()){
-    <div class="text-center py-12">
-        <div class="spinner animate-spin duration-9s"></div>
-        <p>Cargando...</p>
-    </div>
-    }
-    @if(errorMessage()){
-        <div>
-        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">Oh, algo ha fallado...</span></p>
-        <p> {{errorMessage()}}</p>
-        <button 
-        (click)="loadFlowers()"
-        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-        Reintentar
-      </button>
-        </div>
-    }
-    @if(!isLoading() && !errorMessage() && !hasFlowers()) {
-       <div class="text-center py-12">
-        <p>No hay ramos creados.</p>
-        <button (click)="openCreateModal()">Crear primera flor</button>
-        </div>
-    }
-    @if(!isLoading() && !errorMessage() && hasFlowers()) {
-        <div class="grid grid-cols-1 lg:grid-cols-2">
-        @for (flower of flowersService.flowers(); track $index) {
-            <div class="items-center gap-4 p-8">
-            <h3>{{flower.name}}</h3>
-            <p>{{flower.description}}</p>
-            <p>{{flower.category}}</p>
-            <p> Price: {{flower.price}}€</p>
-            <div>
-                <img src="../../../../../assets/images/Margarita.png" alt="Imagen de {{flower.name}}">
-            </div>
-            </div>
-        }
-        </div>
-    }
-
-</section> -->
 
 <section class="container mx-auto">
 
@@ -56,7 +15,7 @@
 
   <!-- LOADING STATE -->
   @if (!isLoading()) {
-    <div class="text-center py-12 px-12">
+    <div class="text-center bg-primary/10 py-12 px-12Rounded">
       <div class="spinner mx-auto animate-[spin_2s_linear_infinite]"></div>
       <p class="text-text mt-4">Cargando ramos...</p>
     </div>
@@ -87,7 +46,7 @@
       <p class="text-text text-lg mb-6">No hay ramos creados todavía</p>
       <button 
         (click)="openCreateModal()"
-        class="bg-primary text-background px-6 py-3 rounded-lg hover:opacity-90 transition-all">
+        class="btn-primary px-6 py-3">
         Crear primer ramo
       </button>
     </div>
@@ -134,12 +93,12 @@
             <div class="flex gap-2">
               <button 
                 (click)="openEditModal(flower._id)"
-                class="flex-1 bg-secondary text-background px-4 py-2 rounded-lg hover:opacity-90 transition-all font-medium">
+                class="flex-1 btn-secondary bg-secondary  px-4 py-2 ">
                 ✏️ Editar
               </button>
               <button 
                 (click)="deleteFlower(flower._id, flower.name)"
-                class="flex-1 bg-error text-background px-4 py-2 rounded-lg hover:opacity-90 transition-all font-medium">
+                class="flex-1 btn-secondary bg-error">
                 🗑️ Eliminar
               </button>
             </div>
@@ -148,109 +107,5 @@
       }
     </div>
   }
+  <app-flower-form />
 </section>
-<!-- 
-<section class="container mx-auto px-6">
-  <header class="mt-8 mb-8 flex items-center justify-between gap-4"> 
-    <div>
-      <h1 class="text-3xl font-bold mb-2 text-primary">Gestión de Ramos</h1>
-      <p class="text-text">Total de ramos: {{ flowerCount() }}</p>
-    </div>
-    
-    <button 
-      (click)="openCreateModal()"
-      class="btn-primary">
-      + Nuevo Ramo 
-    </button>
-  </header>
-
-  @if (!isLoading()) {
-    <div class="text-center py-12">
-      <div class="spinner animate-spin"></div>
-      <p class="text-text mt-4">Cargando ramos...</p>
-    </div>
-  }
-  @if (errorMessage()) {
-    <div class="bg-accent/50 border border-error p-6 rounded-lg shadow-sm mb-6">
-      <div class="flex items-start gap-4">
-        <span class="text-text text-2xl">⚠️</span>
-        <div class="flex-1">
-          <p class="font-bold text-text mb-2">Oh, algo ha fallado...</p>
-          <p class="text-text/80 mb-4">{{ errorMessage() }}</p>
-          <button 
-            (click)="loadFlowers()"
-            class="bg-error text-background px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-            🔄 Reintentar
-          </button>
-        </div>
-      </div>
-    </div>
-  }
-  @if (!isLoading() && !errorMessage() && !hasFlowers()) {
-    <div class="text-center py-16 bg-background rounded-lg border border-border">
-      <span class="text-6xl mb-4 block">🌸</span>
-      <p class="text-text text-lg mb-6">No hay ramos creados todavía</p>
-      <button 
-        (click)="openCreateModal()"
-        class="bg-primary text-background px-6 py-3 rounded-lg hover:opacity-90 transition-all">
-        Crear primer ramo
-      </button>
-    </div>
-  }
-
- 
-  @if (!isLoading() && !errorMessage() && hasFlowers()) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
-      @for (flower of flowersService.flowers(); track flower._id) {
-        <article class="border border-border bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:border-accent transition-all">
-         
-          <div class="aspect-square bg-gray-100 relative">
-            @if (flower.images && flower.images.length > 0) {
-              <img 
-                [src]="flower.images[0]" 
-                [alt]="'Ramo ' + flower.name"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-            } @else {
-              <div class="w-full h-full flex items-center justify-center">
-                <span class="text-6xl opacity-30">🌸</span>
-              </div>
-            }
-          </div>
-
-         
-          <div class="p-5">
-            <h3 class="text-xl font-bold mb-2 text-primary">{{ flower.name }}</h3>
-            <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ flower.description }}</p>
-            
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-2xl font-bold text-primary">{{ flower.price }}€</span>
-              <span class="text-sm text-gray-500">Stock: {{ flower.stock }}</span>
-            </div>
-
-            <div class="mb-4">
-              <span class="inline-block bg-secondary/20 text-primary text-xs px-3 py-1 rounded-full font-medium">
-                {{ flower.category }}
-              </span>
-            </div>
-
-           
-            <div class="flex gap-2">
-              <button 
-                (click)="openEditModal(flower._id)"
-                class="flex-1 bg-secondary text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all font-medium">
-                ✏️ Editar
-              </button>
-              <button 
-                (click)="deleteFlower(flower._id, flower.name)"
-                class="flex-1 bg-error text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all font-medium">
-                🗑️ Eliminar
-              </button>
-            </div>
-          </div>
-        </article>
-      }
-    </div>
-  }
-</section> -->

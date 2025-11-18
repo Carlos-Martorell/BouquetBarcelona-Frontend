@@ -1,23 +1,25 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core'
 import { FlowersService } from '@core/services/flowers';
+import { FlowerForm } from "../../components/flower-form/flower-form";
+import { FlowerFormService } from '../../services/flower-form';
 
 
 @Component({
   selector: 'app-flowers-management',
-  imports: [],
+  imports: [FlowerForm],
   templateUrl: './flowers-management.html',
   styleUrl: './flowers-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class FlowersManagement implements OnInit {
+export class FlowersManagement implements OnInit {
 
   flowersService = inject(FlowersService);
+  formService = inject(FlowerFormService);
   
   
   isLoading = signal(false);
   errorMessage = signal<string|null>(null);
-  isFormOpen = signal(false);
-  editingFlowerId = signal<string|null>(null);
+
   
   flowerCount = computed(() => this.flowersService.flowers().length)
   hasFlowers = computed(() => this.flowerCount() > 0)
@@ -43,26 +45,21 @@ export default class FlowersManagement implements OnInit {
   }
 
   openCreateModal() {
-    this.editingFlowerId.set(null);
-    this.isFormOpen.set(true)
+    this.formService.openForCreate()
   }
 
-    openEditModal(id: string) {
-    this.editingFlowerId.set(id);
-    this.isFormOpen.set(true)
+  
+  openEditModal(id: string) {
+    this.formService.openForEdit(id)
   }
 
-  closeForm() {
-    this.isFormOpen.set(false)
-    this.editingFlowerId.set(null);
-  }
 
   deleteFlower(id: string, name: string) {
     if(!confirm(`¿Está seguro que desea eliminar el ramo: ${name}?`)) return
 
     this.flowersService.delete(id).subscribe({
-      next: () => console.log('Ramo eliminado'),
-      error: (err) => console.log('Error:', err)
+      next: () => alert('Ramo eliminado'),
+      error: (err) => alert(`Error: ${err}`)
     })
   }
 }

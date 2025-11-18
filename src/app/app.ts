@@ -4,7 +4,7 @@ import { FlowersManagement } from "./features/admin/pages/flowers-management/flo
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FlowersManagement],
+  imports: [ FlowersManagement],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
