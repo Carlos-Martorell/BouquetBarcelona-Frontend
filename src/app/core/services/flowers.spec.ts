@@ -23,7 +23,7 @@ const updateFlowerData: UpdateFlower = {
 describe('Flowers', () => {
   let service: FlowersService;
   let httpTestingController: HttpTestingController;
-  const apiUrl = `${environment.apiUrl}/flowers`;
+  const apiUrl = `${environment.apiUrl}/api/flowers`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
