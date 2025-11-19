@@ -152,8 +152,8 @@ const images = this.imageUrlsArray.value
 ## 👤 Author
 
 **Carlos Martorell**
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [your-profile](https://linkedin.com/in/your-profile)
+- GitHub: [[@Carlos-Martorell](https://github.com/Carlos-Martorell)]
+- LinkedIn: [Carlos-Martorell-Otal](www.linkedin.com/in/carlos-martorell-otal)
 
 ## 📄 License
 
