@@ -103,7 +103,7 @@
               formControlName="category"
               class="w-full px-4 py-2.5 border border-border rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-background text-text"
               [class.border-error]="hasError('category')">
-              <option value="">Selecciona una categoría</option>
+              <option value="" disabled selected>Selecciona una categoría</option>
               <option value="clásico">Clásico</option>
               <option value="premium">Premium</option>
               <option value="ocasión especial">Ocasión Especial</option>
@@ -156,15 +156,7 @@
               <p class="text-sm text-text/70">
                 {{ imageUrlsArray.length }} {{ imageUrlsArray.length === 1 ? 'imagen' : 'imágenes' }}
               </p>
-              @if (!hasMinimImages()) {
-                <p class="text-sm text-error font-medium">
-                  Faltan {{ 3 - imageUrlsArray.length }} imágenes
-                </p>
-              } @else {
-                <p class="text-sm text-success font-medium">
-                  ✓ Mínimo alcanzado
-                </p>
-              }
+              
             </div>
           </div>
 

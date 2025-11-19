@@ -1,13 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FlowerForm } from './flower-form';
+import { FlowerFormService } from './flower-form';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('FlowerForm', () => {
-  let service: FlowerForm;
+  let service: FlowerFormService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(FlowerForm);
+    TestBed.configureTestingModule({
+       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(), 
+      ]
+    });
+    service = TestBed.inject(FlowerFormService);
+
   });
 
   it('should be created', () => {
