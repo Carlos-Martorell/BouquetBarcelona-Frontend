@@ -1,59 +1,160 @@
-# BouquetBarcelonaApp
+# 🌸 Bouquet Barcelona - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+E-commerce florist application built with Angular 20, following modern best practices with Signals, Standalone Components, and Lazy Loading.
 
-## Development server
+## 🚀 Demo
 
-To start a local development server, run:
+- **Frontend:** [[https://bouquet-barcelona.vercel.app](https://bouquet-barcelona-frontend.vercel.app)]
+- **Backend API:** [[https://bouquet-api.onrender.com](https://bouquetbarcelona-backend.onrender.com/)]
 
-```bash
-ng serve
+## 🛠️ Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Angular | 20 | Main framework |
+| TypeScript | 5.x | Typed language |
+| Tailwind CSS | 4.x | Utility-first styling |
+| Jasmine/Karma | - | Unit testing |
+| Vercel | - | Frontend deployment |
+
+## 📁 Project Structure
+```
+src/app/
+├── core/                    # Global services and models
+│   ├── models/
+│   │   └── flower.ts        # Flower, CreateFlower, UpdateFlower interfaces
+│   └── services/
+│       └── flowers.ts       # FlowersService with signals and HTTP
+├── features/
+│   └── admin/
+│       ├── pages/
+│       │   └── flowers-management/  # Flowers CRUD page
+│       ├── components/
+│       │   └── flower-form/         # Create/edit modal
+│       └── services/
+│           └── flower-form.ts       # Modal state management
+├── shared/                  # Reusable components
+└── environments/            # Environment configuration
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🎯 Implemented Features
 
-## Code scaffolding
+### Complete Flowers CRUD
+- ✅ List all flowers (GET)
+- ✅ View flower details (GET by ID)
+- ✅ Create new flower (POST)
+- ✅ Edit existing flower (PATCH)
+- ✅ Delete flower (DELETE)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Signals Architecture
+```typescript
+// Reactive state without RxJS for UI
+flowersSignal = signal<Flower[]>([]);
+flowers = flowersSignal.asReadonly();
 
-```bash
-ng generate component component-name
+// Computed values
+flowerCount = computed(() => this.flowers().length);
+hasFlowers = computed(() => this.flowerCount() > 0);
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Reactive Forms
+- FormGroup with validations (required, minLength, min)
+- Dynamic FormArray for multiple image URLs
+- Type guards for TypeScript type safety
 
-```bash
-ng generate --help
+### Lazy Loading Routing
+```typescript
+// Deferred component loading
+{
+  path: 'admin/flowers',
+  loadComponent: () => import('./features/admin/pages/flowers-management/flowers-management')
+    .then(m => m.FlowersManagement)
+}
 ```
 
-## Building
+## 🎨 Design System
 
-To build the project run:
-
-```bash
-ng build
+### Color Palette (@theme)
+```css
+--color-text: #2d3748;        /* Charcoal */
+--color-background: #f7fafc;  /* Ice gray */
+--color-primary: #744c3e;     /* French chocolate */
+--color-secondary: #c9a689;   /* Sand */
+--color-accent: #d4a5a5;      /* Old rose */
+--color-success: #8fa998;     /* Sage */
+--color-error: #b85450;       /* Soft burgundy */
+--color-border: #e8e3df;      /* Parchment */
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🧪 Testing
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+Unit tests for FlowersService with Jasmine/Karma:
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+### Implemented Tests:
+- ✅ Service creation
+- ✅ getAll() updates signal
+- ✅ getOne() fetches flower by ID
+- ✅ create() adds to signal
+- ✅ update() modifies in signal
+- ✅ delete() removes from signal
 
-For end-to-end (e2e) testing, run:
-
+## 🚀 Installation & Running
 ```bash
-ng e2e
+# Clone repository
+git clone https://github.com/your-username/bouquet-barcelona-frontend.git
+
+# Install dependencies
+npm install
+
+# Development (localhost:4200)
+ng serve
+
+# Production build
+ng build --configuration=production
+
+# Run tests
+ng test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Additional Resources
+## 📚 Key Concepts Learned
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Signals vs Observables
+- **Signals:** Synchronous and reactive state for UI
+- **Observables:** Asynchronous operations (HTTP)
+
+### Component Communication
+- **Shared service:** FlowerFormService as single source of truth
+- **No @Input/@Output:** Components read directly from service
+
+### Type Safety with FormArray
+```typescript
+get imageUrlsArray(): FormArray<FormControl<string | null>> {
+  return this.flowerForm.get('imageUrls') as FormArray<FormControl<string | null>>;
+}
+
+// Type guard to filter nulls
+const images = this.imageUrlsArray.value
+  .filter((url): url is string => url !== null && url.trim() !== '');
+```
+
+## 🗺️ Roadmap
+
+- [ ] Dashboard with order calendar
+- [ ] Sales charts (Chart.js)
+- [ ] Delivery map (Leaflet)
+- [ ] JWT Authentication
+- [ ] Shopping cart (client side)
+
+## 👤 Author
+
+**Carlos Martorell**
+- GitHub: [@your-username](https://github.com/your-username)
+- LinkedIn: [your-profile](https://linkedin.com/in/your-profile)
+
+## 📄 License
+
+This project is under the MIT License.
