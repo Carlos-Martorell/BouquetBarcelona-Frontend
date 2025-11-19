@@ -4,6 +4,7 @@ import {HttpTestingController, provideHttpClientTesting } from '@angular/common/
 import {  FlowersService } from './flowers';
 import { CreateFlower, Flower, UpdateFlower } from '@core/models/flower';
 import { provideHttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environments';
 
 const mockFlowers: Flower[] =  [
   { _id: 'a1', name: 'Ramo de Lujo', price: 100, stock: 5, category: 'premium', description: 'desc1', images: ['url1'] },
@@ -22,7 +23,7 @@ const updateFlowerData: UpdateFlower = {
 describe('Flowers', () => {
   let service: FlowersService;
   let httpTestingController: HttpTestingController;
-  const apiUrl = 'http://localhost:3000/api/flowers';
+  const apiUrl = `${environment.apiUrl}/flowers`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

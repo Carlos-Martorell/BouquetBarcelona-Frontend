@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { CreateFlower, Flower, UpdateFlower } from '../models/flower';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlowersService {
 
-private readonly apiUrl = 'http://localhost:3000/api/flowers'
+private readonly apiUrlLC = 'http://localhost:3000/api/flowers'
+private readonly apiUrl = `${environment.apiUrl}/flowers`;
 
 private flowersSignal = signal<Flower[]> ([])
 
