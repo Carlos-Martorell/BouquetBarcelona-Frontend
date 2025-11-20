@@ -1,0 +1,26 @@
+/* Personalizar estilos de FullCalendar con tus colores */
+:host ::ng-deep {
+  .fc {
+    --fc-border-color: #e8e3df;
+    --fc-button-bg-color: #744c3e;
+    --fc-button-border-color: #744c3e;
+    --fc-button-hover-bg-color: #8d6251;
+    --fc-button-hover-border-color: #8d6251;
+    --fc-button-active-bg-color: #5d3a30;
+    --fc-today-bg-color: #d4a5a520;
+  }
+
+  .fc-toolbar-title {
+    color: #744c3e;
+    font-weight: 700;
+  }
+
+  .fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .fc-daygrid-event {
+    padding: 2px 4px;
+  }
+}

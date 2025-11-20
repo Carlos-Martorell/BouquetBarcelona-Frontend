@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { CreateFlower, Flower, UpdateFlower } from '../models/flower';
+import { CreateFlower, Flower, UpdateFlower } from '../../models/flower';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environments';
+import { environment } from '../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',

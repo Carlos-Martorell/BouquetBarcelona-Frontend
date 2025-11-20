@@ -1,0 +1,48 @@
+@plugin "daisyui/theme" {
+  name: "bouquet-admin";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* ═══════════════════════════════════════════ */
+  /* --- MAPEO DE COLORES BASE (Fondo y Texto) --- */
+  /* ═══════════════════════════════════════════ */
+  --color-base-100: #f7fafc;    /* <-- Tu color de fondo (Gris Hielo) */
+  --color-base-200: #e8e3df;    /* <-- Tu color de borde (Pergamino) */
+  --color-base-300: #E1DED8;    /* <-- Un tono ligeramente más oscuro */
+  --color-base-content: #2d3748; /* <-- Tu color de texto (Carbón) */
+
+  /* ═══════════════════════════════════════════ */
+  /* --- COLORES SEMÁNTICOS (Acción y Estado) --- */
+  /* ═══════════════════════════════════════════ */
+  --color-primary: #744c3e;       /* Chocolate francés */
+  --color-primary-content: #f7fafc; /* Texto blanco sobre Primary */
+  
+  --color-secondary: #c9a689;     /* Arena */
+  --color-secondary-content: #2d3748; /* Texto Carbón sobre Secondary */
+  
+  --color-accent: #d4a5a5;        /* Rosa viejo */
+  --color-accent-content: #2d3748; /* Texto Carbón sobre Accent */
+  
+  --color-neutral: #7D838B;       /* NUEVO: Gris-Azulado suave */
+  --color-neutral-content: #f7fafc; /* Texto blanco sobre Neutral */
+
+  --color-info: #3498DB;          /* NUEVO: Azul estándar */
+  --color-info-content: #f7fafc;   /* Texto blanco sobre Info */
+  
+  --color-success: #8fa998;       /* Salvia */
+  --color-success-content: #2d3748; /* Texto Carbón sobre Success */
+  
+  --color-warning: #F39C12;       /* NUEVO: Ámbar Cálido */
+  --color-warning-content: #f7fafc; /* Texto blanco sobre Warning */
+  
+  --color-error: #b85450;         /* Burdeos suave */
+  --color-error-content: #f7fafc;  /* Texto blanco sobre Error */
+  
+  /* ═══════════════════════════════════════════ */
+  /* --- AJUSTES DE DISEÑO --- */
+  /* ═══════════════════════════════════════════ */
+  --radius-selector: 0.5rem; /* rounded-lg */
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+}

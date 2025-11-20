@@ -4,7 +4,7 @@
 <header class="mt-8 mb-8 px-6 flex items-center justify-between gap-4"> 
     <div>
       <h1 class="text-3xl font-bold mb-2 text-primary">Gestión de Ramos</h1>
-      <p class="text-text">Total de ramos: {{ flowerCount() }}</p>
+      <p class="text-text">Total de modelos: {{ flowerCount() }}</p>
     </div>
     
     <button 
@@ -14,7 +14,7 @@
 </header>
 
   <!-- LOADING STATE -->
-  @if (!isLoading()) {
+  @if (isLoading()) {
     <div class="text-center py-12 bg-background rounded-lg my-4 border border-border">
       <div class="spinner mx-auto animate-[spin_2s_linear_infinite]"></div>
       <p class="text-text mt-4">Cargando ramos...</p>
@@ -22,7 +22,7 @@
   }
 
   <!-- ERROR STATE -->
-  @if (!errorMessage()) {
+  @if (errorMessage()) {
     <div class="bg-accent/50 border-1 border-error p-6 rounded-lg shadow-sm">
       <div class="flex items-center text-center justify-around">
         <div class="flex-1">
@@ -40,7 +40,7 @@
   }
 
   <!-- EMPTY STATE -->
-  @if (!isLoading() && !errorMessage() && hasFlowers()) {
+  @if (!isLoading() && !errorMessage() && !hasFlowers()) {
     <div class="text-center py-16 bg-background rounded-lg my-4 border border-border">
       <span class="text-6xl mb-4 block">🌸</span>
       <p class="text-text text-lg mb-6">No hay ramos creados todavía</p>

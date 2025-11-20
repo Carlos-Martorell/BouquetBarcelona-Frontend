@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlowerForm } from './flower-form';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { FlowersService } from '@core/services/flowers';
+import { FlowersService } from '@core/services/flowers/flowers';
 import { FlowerFormService } from '../../services/flower-form';
 import { provideHttpClient } from '@angular/common/http';
 

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FlowersManagement } from "./features/admin/pages/flowers-management/flowers-management";
+
 
 @Component({
   selector: 'app-root',
-  imports: [ FlowersManagement],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

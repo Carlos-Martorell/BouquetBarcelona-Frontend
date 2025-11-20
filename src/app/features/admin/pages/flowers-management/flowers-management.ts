@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core'
-import { FlowersService } from '@core/services/flowers';
+import { FlowersService } from '@core/services/flowers/flowers';
 import { FlowerForm } from "../../components/flower-form/flower-form";
 import { FlowerFormService } from '../../services/flower-form';
 

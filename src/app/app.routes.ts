@@ -1,14 +1,54 @@
 import { Routes } from '@angular/router';
+
 export const routes: Routes = [
-    {
-        path:'',
-        redirectTo: 'admin/flowers',
+  // Ruta pública (futuro home de clientes)
+//   {
+//     path: 'home',
+//     loadComponent: () => import('./features/public/pages/home/home')
+//       .then(m => m.Home)
+//   },
+  
+  // Rutas de admin (con layout)
+  {
+    path: 'admin',
+    loadComponent: () => import('./features/admin/layouts/admin-layout/admin-layout')
+      .then(m => m.AdminLayout),
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
-    },
-{
-        path: 'admin/flowers',
-        loadComponent: () => 
-            import('./features/admin/pages/flowers-management/flowers-management')
-                .then(m => m.FlowersManagement) 
-    }
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/admin/pages/dashboard/dashboard')
+          .then(m => m.Dashboard)
+      },
+      {
+        path: 'flowers',
+        loadComponent: () => import('./features/admin/pages/flowers-management/flowers-management')
+          .then(m => m.FlowersManagement)
+      },
+      {
+        path: 'calendar',
+        loadComponent: () => import('./features/admin/pages/calendar/calendar')
+          .then(m => m.Calendar)
+      }
+    ]
+  },
+  
+  // Redirección por defecto
+  { 
+    path: '', 
+    // redirectTo: '/home', 
+    redirectTo: '/admin', 
+    pathMatch: 'full' 
+  },
+  
+  // Cualquier otra ruta
+  {
+    path: '**',
+    // redirectTo: '/home'
+    redirectTo: '/admin'
+  }
 ];

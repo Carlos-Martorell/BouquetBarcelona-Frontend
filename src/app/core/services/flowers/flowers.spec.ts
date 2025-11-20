@@ -4,7 +4,7 @@ import {HttpTestingController, provideHttpClientTesting } from '@angular/common/
 import {  FlowersService } from './flowers';
 import { CreateFlower, Flower, UpdateFlower } from '@core/models/flower';
 import { provideHttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environments';
+import { environment } from '../../../../environments/environments';
 
 const mockFlowers: Flower[] =  [
   { _id: 'a1', name: 'Ramo de Lujo', price: 100, stock: 5, category: 'premium', description: 'desc1', images: ['url1'] },

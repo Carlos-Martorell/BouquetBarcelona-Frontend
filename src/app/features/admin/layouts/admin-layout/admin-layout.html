@@ -1,0 +1,71 @@
+<div class="drawer lg:drawer-open" data-theme="bouquet-admin">
+  
+  <!-- Checkbox oculto que controla el estado -->
+  <input id="admin-drawer" type="checkbox" class="drawer-toggle" />
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CONTENIDO PRINCIPAL (derecha) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="drawer-content flex flex-col">
+    
+    <!-- NAVBAR MOBILE (solo visible en móvil) -->
+    <header class="navbar bg-primary text-white lg:hidden sticky top-0 z-30">
+      <div class="flex-none">
+        <label for="admin-drawer" class="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </label>
+      </div>
+      <div class="flex-1 px-2">
+        <span class="text-lg font-bold">🌸 Bouquet Admin</span>
+      </div>
+    </header>
+    
+    <!-- CONTENIDO DE LAS PÁGINAS -->
+    <main class="flex-1 p-4 lg:p-6 bg-background min-h-screen">
+      <router-outlet />
+    </main>
+  </div>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SIDEBAR (izquierda) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="drawer-side z-40">
+    
+    <!-- Overlay oscuro (cierra al hacer click) -->
+    <label for="admin-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    
+    <!-- Contenido del sidebar -->
+    <aside class="min-h-full w-64 bg-primary text-white flex flex-col">
+      
+      <!-- LOGO -->
+      <div class="p-6 border-b border-white/20">
+        <h1 class="text-xl font-bold">🌸 Bouquet</h1>
+        <p class="text-sm text-white/70">Admin Panel</p>
+      </div>
+      
+      <!-- NAVEGACIÓN -->
+      <nav class="flex-1 p-4">
+        <ul class="space-y-2">
+          @for (item of navItems; track item.path) {
+            <li>
+              <a 
+                [routerLink]="item.path"
+                routerLinkActive="bg-white/20"
+                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all">
+                <span class="text-xl">{{ item.icon }}</span>
+                <span class="font-medium">{{ item.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+      
+      <!-- FOOTER -->
+      <div class="p-4 border-t border-white/20">
+        <p class="text-xs text-white/50 text-center">v1.0.0</p>
+      </div>
+    </aside>
+  </div>
+</div>

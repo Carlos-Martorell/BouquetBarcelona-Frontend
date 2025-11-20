@@ -1,0 +1,118 @@
+<section>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-primary">Dashboard</h1>
+    <p class="text-text/70">Resumen del día</p>
+  </header>
+
+  <!-- STATS CARDS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <article class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-text/70">Pedidos Hoy</p>
+          <p class="text-2xl font-bold text-text">8</p>
+        </div>
+        <span class="text-3xl">📦</span>
+      </div>
+    </article>
+
+    <article class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-text/70">Ventas Hoy</p>
+          <p class="text-2xl font-bold text-text">€485</p>
+        </div>
+        <span class="text-3xl">💰</span>
+      </div>
+    </article>
+
+    <article class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-text/70">Pendientes</p>
+          <p class="text-2xl font-bold text-secondary">3</p>
+        </div>
+        <span class="text-3xl">⏳</span>
+      </div>
+    </article>
+
+    <article class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-text/70">Entregados</p>
+          <p class="text-2xl font-bold text-success">5</p>
+        </div>
+        <span class="text-3xl">✅</span>
+      </div>
+    </article>
+  </div>
+
+  <!-- FILA: CALENDARIO MINI + PRÓXIMAS ENTREGAS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+    <!-- PRÓXIMAS ENTREGAS -->
+    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Próximas Entregas</h3>
+      <ul class="space-y-3">
+        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
+          <div>
+            <p class="font-medium text-text">Pedido #001</p>
+            <p class="text-sm text-text/70">María García - 10:00</p>
+          </div>
+          <span class="px-2 py-1 bg-success text-white text-xs rounded-full">Confirmado</span>
+        </li>
+        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
+          <div>
+            <p class="font-medium text-text">Pedido #002</p>
+            <p class="text-sm text-text/70">Joan Puig - 14:00</p>
+          </div>
+          <span class="px-2 py-1 bg-secondary text-text text-xs rounded-full">Pendiente</span>
+        </li>
+        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
+          <div>
+            <p class="font-medium text-text">Pedido #003</p>
+            <p class="text-sm text-text/70">Anna López - 16:00</p>
+          </div>
+          <span class="px-2 py-1 bg-success text-white text-xs rounded-full">Confirmado</span>
+        </li>
+      </ul>
+      <a routerLink="/admin/calendar" class="block text-center text-primary text-sm mt-4 hover:underline">
+        Ver calendario completo →
+      </a>
+    </div>
+
+    <!-- PRODUCTOS MÁS VENDIDOS -->
+    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Productos Más Vendidos</h3>
+      <ul class="space-y-3">
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">🌹</span>
+          <div class="flex-1">
+            <p class="font-medium text-text">Ramo Romántico</p>
+            <p class="text-sm text-text/70">15 ventas</p>
+          </div>
+          <p class="font-bold text-primary">€45</p>
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">🌷</span>
+          <div class="flex-1">
+            <p class="font-medium text-text">Tulipanes Premium</p>
+            <p class="text-sm text-text/70">12 ventas</p>
+          </div>
+          <p class="font-bold text-primary">€38</p>
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="text-2xl">🌻</span>
+          <div class="flex-1">
+            <p class="font-medium text-text">Girasoles Alegría</p>
+            <p class="text-sm text-text/70">8 ventas</p>
+          </div>
+          <p class="font-bold text-primary">€32</p>
+        </li>
+      </ul>
+      <a routerLink="/admin/flowers" class="block text-center text-primary text-sm mt-4 hover:underline">
+        Gestionar productos →
+      </a>
+    </div>
+  </div>
+</section>

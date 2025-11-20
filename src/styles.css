@@ -1,5 +1,6 @@
 
 @import "tailwindcss";
+@plugin "daisyui";
 
 /* MINIMAL THEME */
 /* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
@@ -9,9 +10,7 @@
 
 
 * {
-  /* margin: 0;
-  padding: 0;
-  box-sizing: border-box; */
+
 }
 
 body {
@@ -35,6 +34,13 @@ h1, h2, h3, .font-display {
   --color-border: #e8e3df;        /* Pergamino */
 }
 
+/*Colors Daisy*/
+:root {
+  --color-base-100: #f7fafc;      /* background */
+  --color-base-200: #e8e3df;      /* border */
+  --color-base-300: #744c3e;      /* primary */
+  --color-base-content: #2d3748;  /* text */
+}
 
 @layer components {
   .btn-primary {
