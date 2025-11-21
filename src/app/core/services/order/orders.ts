@@ -1,24 +1,98 @@
-import { computed, Injectable, signal } from '@angular/core';
-import { Order } from '@core/models/order';
-import { isToday, format, startOfDay } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { CreateOrder, Order, UpdateOrder } from '@core/models/order';
+import { environment } from '@env/environments';
+import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Orders {
-  private ordersSignals = signal<Order[]>([]);
-  readonly orders = this.ordersSignals.asReadonly();
+export class OrdersService {
 
-  readonly todayOrders = computed(() => {
-    return this.orders().filter(o => isToday(o.deliveryDate));
-  });
+  private http = inject(HttpClient)
+  private readonly apiUrlLH = 'http://localhost:3000/api/orders'
+  private readonly apiUrl = `${environment.apiUrl}/api/orders`;
+  
+  private ordersSignal = signal<Order[]>([]);
+  readonly orders = this.ordersSignal.asReadonly();
+  
 
-  readonly pendingOrders = computed(() => {
-    return this.orders().filter(o => o.status === 'pending');
+  readonly orderCount = computed(() => this.orders().length);
+
+ readonly todayOrders = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  return this.orders().filter(order => {
+    const orderDate = new Date(order.deliveryDate);
+    orderDate.setHours(0, 0, 0, 0);
+    return orderDate.getTime() === today.getTime();
   });
+});
+
+  readonly pendingOrders = computed(() =>
+    this.orders().filter(order => order.status === 'pending')
+  );
+
+  readonly confirmedOrders = computed(() =>
+    this.orders().filter(order => order.status === 'confirmed')
+  );
+
+  readonly deliveredOrders = computed(() =>
+    this.orders().filter(order => order.status === 'delivered')
+  );
 
   readonly todayTotal = computed(() =>
-    this.todayOrders().reduce((sum, o) => sum + o.total, 0)
+    this.todayOrders().reduce((sum, order) => sum + order.total, 0)
   );
+
+  getAll(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.apiUrl).pipe(
+      tap(orders => this.ordersSignal.set(orders))
+    );
+  }
+
+  getOne(id: string): Observable<Order> {
+    return this.http.get<Order>(`${this.apiUrl}/${id}`);
+  }
+
+  create(order: CreateOrder): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl, order).pipe(
+      tap(newOrder => {
+        this.ordersSignal.update(orders => [...orders, newOrder]);
+      })
+    );
+  }
+
+  update(id: string, order: UpdateOrder): Observable<Order> {
+    return this.http.patch<Order>(`${this.apiUrl}/${id}`, order).pipe(
+      tap(updatedOrder => {
+        this.ordersSignal.update(orders =>
+          orders.map(o => o._id === id ? updatedOrder : o)
+        );
+      })
+    );
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        this.ordersSignal.update(orders =>
+          orders.filter(o => o._id !== id)
+        );
+      })
+    );
+  }
+
+  getByStatus(status: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}?status=${status}`);
+  }
+
+  getByDate(date: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}?date=${date}`);
+  }
+
+  getShortId(id: string): string {
+    return id.slice(0, 8).toUpperCase();
+  }
 }

@@ -10,7 +10,7 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm text-text/70">Pedidos Hoy</p>
-          <p class="text-2xl font-bold text-text">8</p>
+          <p class="text-2xl font-bold text-text">{{ ordersService.todayOrders().length }}</p>
         </div>
         <span class="text-3xl">📦</span>
       </div>
@@ -20,7 +20,7 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm text-text/70">Ventas Hoy</p>
-          <p class="text-2xl font-bold text-text">€485</p>
+          <p class="text-2xl font-bold text-text">{{ ordersService.todayTotal() }}</p>
         </div>
         <span class="text-3xl">💰</span>
       </div>
@@ -30,7 +30,7 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm text-text/70">Pendientes</p>
-          <p class="text-2xl font-bold text-secondary">3</p>
+          <p class="text-2xl font-bold text-secondary">{{ ordersService.pendingOrders().length }}</p>
         </div>
         <span class="text-3xl">⏳</span>
       </div>
@@ -40,7 +40,7 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm text-text/70">Entregados</p>
-          <p class="text-2xl font-bold text-success">5</p>
+          <p class="text-2xl font-bold text-success">{{ ordersService.deliveredOrders().length }}</p>
         </div>
         <span class="text-3xl">✅</span>
       </div>
@@ -53,63 +53,39 @@
     <!-- PRÓXIMAS ENTREGAS -->
     <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Próximas Entregas</h3>
+      @if( ordersService.todayOrders().length > 0 ) {
       <ul class="space-y-3">
+        @for( order of ordersService.todayOrders(); track order._id ) {
         <li class="flex items-center justify-between p-3 bg-background rounded-lg">
           <div>
-            <p class="font-medium text-text">Pedido #001</p>
-            <p class="text-sm text-text/70">María García - 10:00</p>
+            <p class="font-medium text-text">Pedido {{ ordersService.getShortId(order._id) }}</p>
+            <p class="text-sm text-text/70">{{order.customerName}} - {{order.deliveryTime}}</p>
           </div>
-          <span class="px-2 py-1 bg-success text-white text-xs rounded-full">Confirmado</span>
+         <span 
+                class="px-2 py-1 text-xs rounded-full whitespace-nowrap"
+                [class]="getStatusBadgeClasses(order.status)">
+                {{ getStatusLabel(order.status) }}
+              </span>
         </li>
-        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
-          <div>
-            <p class="font-medium text-text">Pedido #002</p>
-            <p class="text-sm text-text/70">Joan Puig - 14:00</p>
-          </div>
-          <span class="px-2 py-1 bg-secondary text-text text-xs rounded-full">Pendiente</span>
-        </li>
-        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
-          <div>
-            <p class="font-medium text-text">Pedido #003</p>
-            <p class="text-sm text-text/70">Anna López - 16:00</p>
-          </div>
-          <span class="px-2 py-1 bg-success text-white text-xs rounded-full">Confirmado</span>
-        </li>
-      </ul>
+        }
+        </ul>
+        }
       <a routerLink="/admin/calendar" class="block text-center text-primary text-sm mt-4 hover:underline">
         Ver calendario completo →
       </a>
     </div>
-
-    <!-- PRODUCTOS MÁS VENDIDOS -->
-    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
-      <h3 class="text-lg font-semibold text-primary mb-4">Productos Más Vendidos</h3>
-      <ul class="space-y-3">
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">🌹</span>
-          <div class="flex-1">
-            <p class="font-medium text-text">Ramo Romántico</p>
-            <p class="text-sm text-text/70">15 ventas</p>
-          </div>
-          <p class="font-bold text-primary">€45</p>
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">🌷</span>
-          <div class="flex-1">
-            <p class="font-medium text-text">Tulipanes Premium</p>
-            <p class="text-sm text-text/70">12 ventas</p>
-          </div>
-          <p class="font-bold text-primary">€38</p>
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-2xl">🌻</span>
-          <div class="flex-1">
-            <p class="font-medium text-text">Girasoles Alegría</p>
-            <p class="text-sm text-text/70">8 ventas</p>
-          </div>
-          <p class="font-bold text-primary">€32</p>
-        </li>
-      </ul>
+   
+   <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Productos</h3>
+      <div class="flex items-center justify-between">
+        <p class="text-text">Total de modelos de ramos</p>
+        <p class="text-2xl font-bold text-primary">{{ flowersService.flowers().length }}</p>
+      </div>
+      @if( flowersService.flowers().length > 0 ) {
+        @for( flower of flowersService.flowers() ; track flower._id ) {
+            <p class="text-text/70"> - {{flower.name}}</p>
+        }
+      }
       <a routerLink="/admin/flowers" class="block text-center text-primary text-sm mt-4 hover:underline">
         Gestionar productos →
       </a>
