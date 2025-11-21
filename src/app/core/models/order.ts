@@ -1,19 +1,22 @@
-
+// src/app/core/models/order.ts
 export interface Order {
   _id: string;
   customerName: string;
   customerPhone: string;
-  address: string;
-  items: OrderItem[];
-  total: number;
-  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
-  deliveryDate: Date;
-  deliveryTime: string; // "10:00-12:00"
+  customerEmail: string;
+  deliveryAddress: string;
   coordinates?: {
     lat: number;
     lng: number;
   };
-  createdAt: Date;
+  items: OrderItem[];
+  total: number;
+  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+  deliveryDate: string; // ISO string
+  deliveryTime: string; // "10:00-12:00"
+  notes?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface OrderItem {
@@ -21,4 +24,38 @@ export interface OrderItem {
   flowerName: string;
   quantity: number;
   price: number;
+}
+
+export interface CreateOrder {
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  deliveryAddress: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  items: OrderItem[];
+  total: number;
+  status?: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+  deliveryDate: string;
+  deliveryTime: string;
+  notes?: string;
+}
+
+export interface UpdateOrder {
+  customerName?: string;
+  customerPhone?: string;
+  customerEmail?: string;
+  deliveryAddress?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  items?: OrderItem[];
+  total?: number;
+  status?: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+  deliveryDate?: string;
+  deliveryTime?: string;
+  notes?: string;
 }

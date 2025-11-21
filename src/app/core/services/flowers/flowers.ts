@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environments';
 })
 export class FlowersService {
 
-private readonly apiUrlLC = 'http://localhost:3000/api/flowers'
+private readonly apiUrlLH = 'http://localhost:3000/api/flowers'
 private readonly apiUrl = `${environment.apiUrl}/api/flowers`;
 
 private flowersSignal = signal<Flower[]> ([])
