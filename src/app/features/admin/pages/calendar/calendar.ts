@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { OrdersService } from '@core/services/order/orders';
+import { NotificationService } from '@core/services/toast/notification';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { OrdersService } from '@core/services/order/orders';
 export class Calendar implements OnInit {
 
   private ordersService = inject(OrdersService)
-  
+  private notificationService = inject(NotificationService);
 
 
   // Evento seleccionado para mostrar detalles
@@ -130,13 +131,11 @@ ngOnInit(): void {
   updateOrderStatus(orderId: string, newStatus: string) {
     this.ordersService.update(orderId, { status: newStatus as any }).subscribe({
       next: () => {
-        this.successMessage.set('✅ Estado actualizado correctamente');
-        setTimeout(() => this.successMessage.set(null), 3000);
+        this.notificationService.showSuccess('Estado actualizado correctamente');
         this.closeEventDetails();
       },
-      error: (err) => {
-        this.successMessage.set('❌ Error al actualizar');
-      setTimeout(() => this.successMessage.set(null), 3000);
+      error: () => {
+        this.notificationService.showError('Error al actualizar el estado');
       }
 
     });

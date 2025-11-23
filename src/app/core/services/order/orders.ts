@@ -95,4 +95,35 @@ export class OrdersService {
   getShortId(id: string): string {
     return id.slice(0, 8).toUpperCase();
   }
+
+  readonly todayOrdersSorted = computed(() => {
+  return this.todayOrders().sort((a, b) => {
+    // Extraer horas de inicio
+    const startA = a.deliveryTime.split('-')[0];
+    const startB = b.deliveryTime.split('-')[0];
+    
+    // Si las horas de inicio son iguales, ordenar por duración (más corta primero)
+    if (startA === startB) {
+      const endA = a.deliveryTime.split('-')[1];
+      const endB = b.deliveryTime.split('-')[1];
+      
+      const durationA = this.getTimeDifference(startA, endA);
+      const durationB = this.getTimeDifference(startB, endB);
+      
+      return durationA - durationB; // Más corta primero
+    }
+    
+    // Ordenar por hora de inicio
+    return startA.localeCompare(startB);
+  });
+});
+
+// Helper: Calcular diferencia en minutos
+private getTimeDifference(start: string, end: string): number {
+  const [startH, startM] = start.split(':').map(Number);
+  const [endH, endM] = end.split(':').map(Number);
+  
+  return (endH * 60 + endM) - (startH * 60 + startM);
+}
+
 }

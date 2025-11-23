@@ -48,44 +48,117 @@
   </div>
 
   <!-- FILA: CALENDARIO MINI + PRÓXIMAS ENTREGAS -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    
-    <!-- PRÓXIMAS ENTREGAS -->
-    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
-      <h3 class="text-lg font-semibold text-primary mb-4">Próximas Entregas</h3>
-      @if( ordersService.todayOrders().length > 0 ) {
-      <ul class="space-y-3">
-        @for( order of ordersService.todayOrders(); track order._id ) {
-        <li class="flex items-center justify-between p-3 bg-background rounded-lg">
-          <div>
-            <p class="font-medium text-text">Pedido {{ ordersService.getShortId(order._id) }}</p>
-            <p class="text-sm text-text/70">{{order.customerName}} - {{order.deliveryTime}}</p>
-          </div>
-         <span 
-                class="px-2 py-1 text-xs rounded-full whitespace-nowrap"
-                [class]="getStatusBadgeClasses(order.status)">
-                {{ getStatusLabel(order.status) }}
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- COLUMNA 1: CALENDARIO MINI (día) -->
+    <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Orden de entregas</h3>
+      
+      @if (ordersService.todayOrders().length > 0) {
+        <div class="space-y-2">
+          @for (order of ordersService.todayOrdersSorted(); track order._id) {
+            <div class="flex items-center gap-2 p-2 bg-background rounded-lg text-sm">
+              <span class="font-mono text-xs text-text/70">{{ order.deliveryTime }}</span>
+              <div class="flex">
+                <p class="font-medium text-text truncate">{{ '#'+ ordersService.getShortId(order._id) }}</p>
+              </div>
+              <span 
+                class="w-2 h-2 rounded-full"
+                [class.bg-success]="order.status === 'confirmed'"
+                [class.bg-secondary]="order.status === 'pending'"
+                [class.bg-primary]="order.status === 'delivered'">
               </span>
-        </li>
-        }
-        </ul>
-        }
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="text-text/50 text-center py-8">Sin entregas programadas</p>
+      }
+      
       <a routerLink="/admin/calendar" class="block text-center text-primary text-sm mt-4 hover:underline">
         Ver calendario completo →
       </a>
     </div>
-   
-   <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
-      <h3 class="text-lg font-semibold text-primary mb-4">Productos</h3>
-      <div class="flex items-center justify-between">
-        <p class="text-text">Total de modelos de ramos</p>
-        <p class="text-2xl font-bold text-primary">{{ flowersService.flowers().length }}</p>
-      </div>
-      @if( flowersService.flowers().length > 0 ) {
-        @for( flower of flowersService.flowers() ; track flower._id ) {
-            <p class="text-text/70"> - {{flower.name}}</p>
-        }
+
+    <!-- PRÓXIMAS ENTREGAS -->
+     <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Detalles Próximas Entregas</h3>
+      
+      @if (ordersService.todayOrdersSorted().length > 0) {
+        <div class="space-y-4 max-h-[500px] overflow-y-auto">
+          @for (order of ordersService.todayOrdersSorted().slice(0, 5); track order._id) {
+            <article class="p-3 bg-background rounded-lg border-l-4"
+              [class.border-l-success]="order.status === 'confirmed'"
+              [class.border-l-secondary]="order.status === 'pending'"
+              [class.border-l-primary]="order.status === 'delivered'">
+              
+              <!-- Header -->
+              <div class="flex items-center justify-between mb-2">
+                <p class="font-semibold text-text">#{{ ordersService.getShortId(order._id) }}</p>
+                <span 
+                  class="px-2 py-1 text-xs rounded-full"
+                  [class]="getStatusBadgeClasses(order.status)">
+                  {{ getStatusLabel(order.status) }}
+                </span>
+              </div>
+
+              <!-- Info cliente -->
+              <div class="text-sm space-y-1 mb-2">
+                <p class="text-text">👤 {{ order.customerName }}</p>
+                <p class="text-text/70">🕐 {{ order.deliveryTime }}</p>
+                <p class="text-text/70">📍 {{ order.deliveryAddress }}</p>
+              </div>
+
+              <!-- Items del pedido -->
+              <div class="mb-2">
+                <ul class="text-sm space-y-1">
+                  @for (item of order.items; track item.flowerId) {
+                    <li class="text-text/80">
+                      • {{ item.flowerName }} x{{ item.quantity }}
+                    </li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Notas -->
+              <div class="pt-2 border-t border-border/50">
+                @if (order.notes) {
+                  <p class="text-xs text-text/70">📝 {{ order.notes }}</p>
+                } @else {
+                  <p class="text-xs text-text/40 italic">Sin detalles adicionales</p>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <p class="text-text/50 text-center py-8">Sin pedidos pendientes</p>
       }
+    </div>
+
+    <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Inventario</h3>
+      
+      <div class="mb-4">
+        <div class="flex items-center justify-between">
+          <p class="text-text/70">Total modelos de ramos</p>
+          <p class="text-2xl font-bold text-primary">{{ flowersService.flowers().length }}</p>
+        </div>
+      </div>
+
+      <div class="space-y-2 max-h-64 overflow-y-auto">
+        @for (flower of flowersService.flowers(); track flower._id) {
+          <div class="flex items-center justify-between p-2 bg-background rounded text-sm">
+            <span class="text-text truncate flex-1">{{ flower.name }}</span>
+            <span 
+              class="text-xs font-medium ml-2 px-2 py-1 rounded text-white"
+              [class.bg-error]="flower.stock < 5"
+              [class.bg-success]="flower.stock >= 5">
+              {{ flower.stock }}
+            </span>
+          </div>
+        }
+      </div>
+
       <a routerLink="/admin/flowers" class="block text-center text-primary text-sm mt-4 hover:underline">
         Gestionar productos →
       </a>

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { FlowersService } from '@core/services/flowers/flowers';
 import { FlowerForm } from "../../components/flower-form/flower-form";
 import { FlowerFormService } from '../../services/flower-form';
+import { NotificationService } from '@core/services/toast/notification';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class FlowersManagement implements OnInit {
 
   flowersService = inject(FlowersService);
   formService = inject(FlowerFormService);
-  
+  notificationService = inject(NotificationService);
   
   isLoading = signal(false);
   errorMessage = signal<string|null>(null);
@@ -58,8 +59,8 @@ export class FlowersManagement implements OnInit {
     if(!confirm(`¿Está seguro que desea eliminar el ramo: ${name}?`)) return
 
     this.flowersService.delete(id).subscribe({
-      next: () => alert('Ramo eliminado'),
-      error: (err) => alert(`Error: ${err}`)
+      next: () => this.notificationService.showSuccess(`Ramo "${name}" eliminado correctamente`),
+      error: () => this.notificationService.showError('Error al eliminar el ramo')
     })
   }
 }

@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NotificationService } from '@core/services/toast/notification';
 
 
 @Component({
@@ -10,4 +11,5 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('BouquetBarcelona-app');
+  notificationService = inject(NotificationService);
 }
