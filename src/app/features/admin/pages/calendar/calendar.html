@@ -1,4 +1,4 @@
-<section>
+<!-- <section>
   @if (successMessage()) {
   <div class="toast toast-top toast-end">
     <div class="alert alert-success">
@@ -14,12 +14,12 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     
-    <!-- CALENDARIO (ocupa 2 columnas en desktop) -->
+
     <div class="lg:col-span-2 bg-white border border-border rounded-lg p-4 shadow-sm">
       <full-calendar [options]="calendarOptions" />
     </div>
 
-    <!-- PANEL DE DETALLES -->
+
     <div class="bg-white border border-border rounded-lg p-4 shadow-sm">
       <h3 class="text-3xl font-semibold text-primary mb-4">Detalles del Pedido</h3>
       
@@ -71,7 +71,20 @@
         </p>
       }
     </div>
+  </div> -->
+<section>
+  @if (successMessage()) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-success">
+      <span>{{ successMessage() }}</span>
+    </div>
   </div>
+}
+  
+   <header class="mb-6">
+    <h1 class="text-3xl font-bold text-primary">Calendario de Pedidos</h1>
+    <p class="text-text/70">Gestiona las entregas programadas</p>
+  </header>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     

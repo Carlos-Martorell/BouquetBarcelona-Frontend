@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core'; // useful for typechecking
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -19,103 +19,65 @@ export class Calendar implements OnInit {
 
   private ordersService = inject(OrdersService)
   
-  // ////////////
-  // events = signal([
-  //   {
-  //     id: '1',
-  //     title: 'Pedido #001 - María García',
-  //     start: new Date().toISOString().split('T')[0] + 'T10:00:00',
-  //     end: new Date().toISOString().split('T')[0] + 'T12:00:00',
-  //     backgroundColor: '#8fa998', // success
-  //     borderColor: '#8fa998',
-  //     extendedProps: {
-  //       status: 'confirmed',
-  //       address: 'Carrer de Balmes 123',
-  //       total: 45
-  //     }
-  //   },
-  //   {
-  //     id: '2',
-  //     title: 'Pedido #002 - Joan Puig',
-  //     start: new Date().toISOString().split('T')[0] + 'T14:00:00',
-  //     end: new Date().toISOString().split('T')[0] + 'T16:00:00',
-  //     backgroundColor: '#c9a689', // secondary
-  //     borderColor: '#c9a689',
-  //     extendedProps: {
-  //       status: 'pending',
-  //       address: 'Avinguda Diagonal 456',
-  //       total: 78
-  //     }
-  //   },
-  //   {
-  //     id: '3',
-  //     title: 'Pedido #003 - Anna López',
-  //     start: this.getTomorrowDate() + 'T09:00:00',
-  //     end: this.getTomorrowDate() + 'T11:00:00',
-  //     backgroundColor: '#744c3e', // primary
-  //     borderColor: '#744c3e',
-  //     extendedProps: {
-  //       status: 'confirmed',
-  //       address: 'Passeig de Gràcia 78',
-  //       total: 120
-  //     }
-  //   }
-  // ]);
 
 
   // Evento seleccionado para mostrar detalles
   selectedEvent = signal<any>(null);
   successMessage = signal<string | null>(null);
-
-  calendarEvents = computed<EventInput[]>(() => 
-    this.ordersService.orders().map(order => ({
-      id: order._id,
-      title: `${order.customerName}`,
-      start: `${order.deliveryDate}T${order.deliveryTime.split('-')[0]}:00`,
-      end: `${order.deliveryDate}T${order.deliveryTime.split('-')[1]}:00`,
-      backgroundColor: this.getStatusColor(order.status),
-      borderColor: this.getStatusColor(order.status),
-      extendedProps: {
-        customerName: order.customerName,
-        customerPhone: order.customerPhone,
-        address: order.deliveryAddress,
-        total: order.total,
-        status: order.status,
-        items: order.items
-      }
-    }))
-  );
-
-
-
-  calendarOptions: CalendarOptions = {
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    locale: 'es',
-    firstDay: 1, // Lunes
-    height: 'auto',
-    events: this.calendarEvents(),
-    eventClick: this.handleEventClick.bind(this),
-    eventTimeFormat: {
-      hour: '2-digit',
-      minute: '2-digit',
-      meridiem: false,
-      hour12: false
-    },
-    buttonText: {
-      today: 'Hoy',
-      month: 'Mes',
-      week: 'Semana',
-      day: 'Día'
-    }
-  };
+  
+  calendarOptions = signal<CalendarOptions>({
+     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+     initialView: 'dayGridMonth',
+     headerToolbar: {
+       left: 'prev,next today',
+       center: 'title',
+       right: 'dayGridMonth,timeGridWeek,timeGridDay'
+     },
+     locale: 'es',
+     firstDay: 1,
+     height: 'auto',
+     events: [], // ← Inicialmente vacío
+     eventClick: this.handleEventClick.bind(this),
+     eventTimeFormat: {
+       hour: '2-digit',
+       minute: '2-digit',
+       meridiem: false,
+       hour12: false
+     },
+     buttonText: {
+       today: 'Hoy',
+       month: 'Mes',
+       week: 'Semana',
+       day: 'Día'
+     }
+   });
 
 
+constructor() {
+    effect(() => {
+      const events = this.ordersService.orders().map(order => ({
+        id: order._id,
+        title: `${order.customerName}`,
+        start: `${order.deliveryDate.split('T')[0]}T${order.deliveryTime.split('-')[0]}:00`,
+        end: `${order.deliveryDate.split('T')[0]}T${order.deliveryTime.split('-')[1]}:00`,
+        backgroundColor: this.getStatusColor(order.status),
+        borderColor: this.getStatusColor(order.status),
+        extendedProps: {
+          customerName: order.customerName,
+          customerPhone: order.customerPhone,
+          address: order.deliveryAddress,
+          total: order.total,
+          status: order.status,
+          items: order.items
+        }
+      })) 
+    this.calendarOptions.update(options => ({
+      ...options,
+      events: events
+    }));
+    })
+}
+      
 ngOnInit(): void {
   this.ordersService.getAll().subscribe()
 }
@@ -136,14 +98,33 @@ ngOnInit(): void {
 
   private getStatusColor(status: string): string {
     const colors: Record<string, string> = {
-      pending: '#c9a689',    // secondary
-      confirmed: '#8fa998',  // success
-      delivered: '#744c3e',  // primary
-      cancelled: '#b85450'   // error
+      pending: 'var(--color-secondary)',   
+      confirmed: 'var(--color-success)',    
+      delivered: 'var(--color-primary)',   
+      cancelled: 'var(--color-error)'
     };
     return colors[status] || '#744c3e';
   }
 
+    getStatusBadgeClasses(status: string): string {
+    const classes: Record<string, string> = {
+      pending: 'bg-secondary text-text',
+      confirmed: 'bg-success text-white',
+      delivered: 'bg-primary text-white',
+      cancelled: 'bg-error text-white'
+    };
+    return classes[status] || 'bg-secondary text-text';
+  }
+
+  getStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      pending: 'Pendiente',
+      confirmed: 'Confirmado',
+      delivered: 'Entregado',
+      cancelled: 'Cancelado'
+    };
+    return labels[status] || status;
+  }
 
 
   updateOrderStatus(orderId: string, newStatus: string) {
