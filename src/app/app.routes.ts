@@ -39,6 +39,12 @@ export const routes: Routes = [
         loadComponent: () => 
             import('./features/admin/pages/maps/maps-management')
                 .then(m => m.MapsManagement)
+      },     
+      {
+        path:'analytics',
+        loadComponent: () => 
+            import('./features/admin/pages/analytics/analytics')
+                .then(m => m.Analytics)
       }     
     ]
   },

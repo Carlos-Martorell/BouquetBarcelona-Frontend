@@ -44,6 +44,7 @@
     "@fullcalendar/interaction": "^6.1.19",
     "@fullcalendar/timegrid": "^6.1.19",
     "@tailwindcss/postcss": "^4.1.17",
+    "chart.js": "^4.5.1",
     "date-fns": "^4.1.0",
     "flowbite": "^4.0.0",
     "mapbox-gl": "^3.16.0",

@@ -16,5 +16,6 @@ export class AdminLayout {
     { path: '/admin/flowers', icon: '🌸', label: 'Gestión de ramos' },
     { path: '/admin/calendar', icon: '📅', label: 'Calendario' },
     { path: '/admin/maps', icon: '🗺️', label: 'Mapa' },
+    { path: '/admin/analytics', icon: '📈', label: 'Analytics' },
   ];
 }
