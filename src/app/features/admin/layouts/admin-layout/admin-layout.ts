@@ -1,4 +1,4 @@
-// src/app/features/admin/layouts/admin-layout/admin-layout.ts
+
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -10,10 +10,11 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './admin-layout.css'
 })
 export class AdminLayout {
-  // Array de navegación (fácil de modificar)
+ 
   navItems = [
     { path: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
     { path: '/admin/flowers', icon: '🌸', label: 'Gestión de ramos' },
     { path: '/admin/calendar', icon: '📅', label: 'Calendario' },
+    { path: '/admin/maps', icon: '🗺️', label: 'Mapa' },
   ];
 }

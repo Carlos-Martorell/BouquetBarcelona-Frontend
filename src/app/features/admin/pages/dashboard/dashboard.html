@@ -106,6 +106,9 @@
                 <p class="text-text">👤 {{ order.customerName }}</p>
                 <p class="text-text/70">🕐 {{ order.deliveryTime }}</p>
                 <p class="text-text/70">📍 {{ order.deliveryAddress }}</p>
+                @if(order.coordinates){
+                  <p class="text-success/50">Coordenadas OK: {{ order.coordinates.lng }} - {{ order.coordinates.lat }} </p>
+                } @else {<p class="text-error/50">Sin coordenadas, precaución en el mapa.</p>}
               </div>
 
               <!-- Items del pedido -->

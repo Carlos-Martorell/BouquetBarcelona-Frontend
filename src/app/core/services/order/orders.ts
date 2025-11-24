@@ -93,7 +93,7 @@ export class OrdersService {
   }
 
   getShortId(id: string): string {
-    return id.slice(0, 8).toUpperCase();
+    return id.slice(4, 8).toUpperCase();
   }
 
   readonly todayOrdersSorted = computed(() => {
@@ -118,12 +118,12 @@ export class OrdersService {
   });
 });
 
-// Helper: Calcular diferencia en minutos
-private getTimeDifference(start: string, end: string): number {
-  const [startH, startM] = start.split(':').map(Number);
-  const [endH, endM] = end.split(':').map(Number);
-  
-  return (endH * 60 + endM) - (startH * 60 + startM);
-}
+  // Helper: Calcular diferencia en minutos
+  private getTimeDifference(start: string, end: string): number {
+    const [startH, startM] = start.split(':').map(Number);
+    const [endH, endM] = end.split(':').map(Number);
+    
+    return (endH * 60 + endM) - (startH * 60 + startM);
+  }
 
 }

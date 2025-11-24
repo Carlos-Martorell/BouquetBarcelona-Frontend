@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+
+div[data-mapbox] {
+  height: 100%;
+}
+
+
+:host ::ng-deep .mapboxgl-popup-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: inherit;
+}
+
+:host ::ng-deep .mapboxgl-popup-close-button {
+  font-size: 30px;
+  color: var(--color-primary);
+  outline: none;
+} 

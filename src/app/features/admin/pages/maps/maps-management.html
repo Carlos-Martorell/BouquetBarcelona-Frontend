@@ -1,0 +1,41 @@
+<section class="h-full flex flex-col">
+<header class="p-6 bg-white border-b border-border">
+    <h1 class="text-3xl font-bold text-primary">Mapa de Entregas</h1>
+    <p class="text-text/70">Visualiza las entregas del día</p>
+</header>
+<div #map class="w-full h-full"></div>
+
+<div id="controls" class="
+      bg-white p-3 rounded-lg fixed bottom-3 right-3 z-9999 shadow-md border border-gray-200
+      md:w-72 md:p-4 md:bottom-6 md:right-5">
+
+    <p class="text-sm font-bold text-black mb-2 md:text-base">
+    Zoom
+
+    <small class="text-xs font-normal text-gray-500 md:text-sm">{{
+      zoom() | number : "1.0-0"
+    }}</small>
+  </p>
+
+  <input
+    type="range"
+    min="1"
+    max="19"
+    [value]="zoom()"
+    class="range range-primary"
+    (input)="zoom.set(+$event.target.value)"
+  />
+
+    <p class="text-sm font-bold text-black mt-4 md:text-base">Coordenadas</p>
+  <pre class="text-xs text-gray-500 font-normal whitespace-pre-wrap wrap-break-words md:text-sm"
+    >{{
+      {
+        latitude: coordinates().lat | number: '1.4-4',
+        longitude: coordinates().lng | number: '1.4-4',
+      } | json
+
+    }}
+  </pre>
+    
+</div>
+</section>

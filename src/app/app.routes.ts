@@ -33,11 +33,16 @@ export const routes: Routes = [
         path: 'calendar',
         loadComponent: () => import('./features/admin/pages/calendar/calendar')
           .then(m => m.Calendar)
-      }
+      },
+      {
+        path:'maps',
+        loadComponent: () => 
+            import('./features/admin/pages/maps/maps-management')
+                .then(m => m.MapsManagement)
+      }     
     ]
   },
   
-  // Redirección por defecto
   { 
     path: '', 
     // redirectTo: '/home', 
