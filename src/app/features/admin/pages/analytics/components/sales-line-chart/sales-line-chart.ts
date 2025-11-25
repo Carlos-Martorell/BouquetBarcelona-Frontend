@@ -38,11 +38,8 @@ export class SalesLineChart implements AfterViewInit, OnDestroy {
   private updateChart(): void {
     const canvas = this.chartElement()?.nativeElement;
     if (!canvas) {
-      console.log('❌ Canvas not found');
       return;
     }
-
-    console.log('📊 Updating chart with data:', this.data());
 
     if (this.chart) {
       this.chart.destroy();
@@ -68,7 +65,7 @@ export class SalesLineChart implements AfterViewInit, OnDestroy {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false, // ← Cambiar a false
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false
@@ -91,7 +88,6 @@ export class SalesLineChart implements AfterViewInit, OnDestroy {
     };
 
     this.chart = new Chart(canvas, config);
-    console.log('✅ Chart created');
   }
 
   ngOnDestroy() {

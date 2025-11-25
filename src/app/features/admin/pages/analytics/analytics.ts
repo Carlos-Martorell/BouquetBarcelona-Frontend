@@ -20,11 +20,11 @@ export class Analytics implements OnInit {
   private ordersService = inject(OrdersService);
   private flowersService = inject(FlowersService);
 
-  // 📊 SEMANA ACTUAL
+
   currentWeekOrders = computed(() => {
     const now = new Date();
     const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Lunes
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1); 
     startOfWeek.setHours(0, 0, 0, 0);
 
     return this.ordersService.orders().filter(order => {
@@ -39,7 +39,8 @@ export class Analytics implements OnInit {
 
   weeklyOrders = computed(() => this.currentWeekOrders().length);
 
-  // 📊 MES ACTUAL
+
+
   currentMonthOrders = computed(() => {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -56,7 +57,10 @@ export class Analytics implements OnInit {
 
   monthlyOrders = computed(() => this.currentMonthOrders().length);
 
-  // 📊 PRODUCTOS MÁS VENDIDOS (todos los tiempos)
+
+
+
+
   topProducts = computed(() => {
     const orders = this.ordersService.orders();
     const productSales = new Map<string, { name: string; quantity: number }>();
@@ -85,7 +89,10 @@ export class Analytics implements OnInit {
     };
   });
 
-  // 📊 VENTAS DIARIAS (últimos 7 días)
+
+  
+
+
   last7DaysLabels = computed(() => {
     const labels: string[] = [];
     for (let i = 6; i >= 0; i--) {
@@ -121,7 +128,11 @@ export class Analytics implements OnInit {
     return sales;
   });
 
-  // 📊 PEDIDOS POR ESTADO
+
+  
+
+
+
   ordersByStatus = computed(() => {
     const orders = this.ordersService.orders();
     return {
@@ -131,7 +142,7 @@ export class Analytics implements OnInit {
         orders.filter(o => o.status === 'confirmed').length,
         orders.filter(o => o.status === 'delivered').length,
       ],
-      colors: ['#c9a689', '#8fa998', '#744c3e'] // Arena, Salvia, Chocolate
+      colors: ['#c9a689', '#8fa998', '#744c3e'] 
     };
   });
 

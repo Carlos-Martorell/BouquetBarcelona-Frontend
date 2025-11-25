@@ -22,13 +22,10 @@ export class OrdersDoughnut implements AfterViewInit, OnDestroy {
   
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('chart');
   
-  // labels = input.required<string[]>();
-  // data = input.required<number[]>();
-  // colors = input.required<string[]>();
   labels = input<string[]>([]);
   data = input<number[]>([]);
   colors = input<string[]>([]);
-  
+
   private chart?: Chart;
 
    private chartEffect = effect(() => {
