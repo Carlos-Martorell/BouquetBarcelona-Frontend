@@ -27,7 +27,9 @@ export class FlowerFormService {
 
   close() {
     this.isFormOpenSignal.set(false);
+    setTimeout(() => {
     this.editingFlowerIdSignal.set(null);
+    }, 300);
   }
   
 }

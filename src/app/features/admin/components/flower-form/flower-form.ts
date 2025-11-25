@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FlowersService } from '@core/services/flowers/flowers';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
-import { FlowerFormService } from '../../services/flower-form';
+import { FlowerFormService } from '../../services/flower-form/flower-form';
 
 @Component({
   selector: 'app-flower-form',
