@@ -1,1 +1,69 @@
-<p>analytics works!</p>
+<!-- analytics.html -->
+<section class="p-6">
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-primary">Analytics</h1>
+    <p class="text-text/70">Métricas y estadísticas de ventas</p>
+  </header>
+
+  <!-- STATS CARDS: 4 columnas en una fila -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <!-- Semana: Ingresos -->
+    <article class="bg-white border border-border rounded-lg p-4 shadow-sm">
+      <p class="text-xs text-text/70 mb-1">📅 Ingresos Semana</p>
+      <p class="text-2xl font-bold text-primary">{{ weeklyRevenue() }}€</p>
+    </article>
+
+    <!-- Semana: Pedidos -->
+    <article class="bg-white border border-border rounded-lg p-4 shadow-sm">
+      <p class="text-xs text-text/70 mb-1">📅 Pedidos Semana</p>
+      <p class="text-2xl font-bold text-primary">{{ weeklyOrders() }}</p>
+    </article>
+
+    <!-- Mes: Ingresos -->
+    <article class="bg-white border border-border rounded-lg p-4 shadow-sm">
+      <p class="text-xs text-text/70 mb-1">📆 Ingresos Mes</p>
+      <p class="text-2xl font-bold text-primary">{{ monthlyRevenue() }}€</p>
+    </article>
+
+    <!-- Mes: Pedidos -->
+    <article class="bg-white border border-border rounded-lg p-4 shadow-sm">
+      <p class="text-xs text-text/70 mb-1">📆 Pedidos Mes</p>
+      <p class="text-2xl font-bold text-primary">{{ monthlyOrders() }}</p>
+    </article>
+  </div>
+
+  <!-- GRÁFICAS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+    <!-- Ventas últimos 7 días -->
+    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Ventas Últimos 7 Días</h3>
+      <div class="h-64">
+        <app-sales-line-chart 
+          [labels]="last7DaysLabels()"
+          [data]="last7DaysSales()" />
+      </div>
+    </div>
+
+    <!-- Pedidos por estado -->
+    <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Estado de Pedidos</h3>
+      <div class="h-64">
+        <app-orders-doughnut 
+          [labels]="ordersByStatus().labels"
+          [data]="ordersByStatus().data"
+          [colors]="ordersByStatus().colors" />
+      </div>
+    </div>
+
+    <!-- Productos más vendidos -->
+    <div class="lg:col-span-2 bg-white border border-border rounded-lg p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-primary mb-4">Productos Más Vendidos</h3>
+      <div class="h-64">
+        <app-products-bar-chart 
+          [labels]="topProducts().labels"
+          [data]="topProducts().data" />
+      </div>
+    </div>
+  </div>
+</section>
