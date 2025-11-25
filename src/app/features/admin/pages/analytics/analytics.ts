@@ -147,17 +147,8 @@ export class Analytics implements OnInit {
   });
 
 ngOnInit() {
-  console.log('📊 Analytics loading...');
   
-  this.ordersService.getAll().subscribe({
-    next: () => {
-      console.log('✅ Orders loaded:', this.ordersService.orders().length);
-      console.log('📈 Weekly revenue:', this.weeklyRevenue());
-      console.log('📈 Last 7 days labels:', this.last7DaysLabels());
-      console.log('📈 Last 7 days sales:', this.last7DaysSales());
-    },
-    error: (err) => console.error('❌ Error loading orders:', err)
-  });
+  this.ordersService.getAll().subscribe();
   
   this.flowersService.getAll().subscribe();
 }
