@@ -95,7 +95,6 @@ export class OrderForm {
       price: [flower.price]
     }));
 
-    // Resetear
     this.selectedFlowerId = '';
     this.selectedQuantity = 1;
   }
