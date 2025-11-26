@@ -21,6 +21,9 @@
       "@env/*": [
         "./src/environments/*" 
       ],
+      "@serv-admin/*": [
+        "./src/app/features/admin/services/*" 
+      ],
     }
   },
   "angularCompilerOptions": {

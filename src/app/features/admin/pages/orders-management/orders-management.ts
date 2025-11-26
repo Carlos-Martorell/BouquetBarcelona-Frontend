@@ -3,12 +3,11 @@ import { OrdersService } from '@core/services/order/orders';
 import { NotificationService } from '@core/services/toast/notification';
 import { OrderFormService } from '../../services/order-form/order-form';
 import { CommonModule, DatePipe } from '@angular/common';
+import { OrderForm } from "../../components/order-form/order-form";
 
 @Component({
   selector: 'app-orders-management',
-  imports: [CommonModule, DatePipe
-    // OrderForm
-  ],
+  imports: [CommonModule, DatePipe, OrderForm],
   templateUrl: './orders-management.html',
   styleUrl: './orders-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

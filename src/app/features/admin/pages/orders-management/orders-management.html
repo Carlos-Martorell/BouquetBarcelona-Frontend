@@ -1,7 +1,7 @@
 
 <section class="container mx-auto p-6">
 
-  <header class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+  <header class="mb-8 flex items-center justify-between gap-4">
     <div>
       <h1 class="text-3xl font-bold text-primary">Gestión de Pedidos</h1>
       <p class="text-text/70">Total: {{ orderCount() }} pedidos</p>
@@ -86,6 +86,9 @@
             <div class="mb-4 space-y-2">
                 <p class="text-sm">
                     <span class="font-semibold">📍 Dirección:</span> {{ order.deliveryAddress }}
+                    @if (order.deliveryDetails) {
+                      <span class="text-text/70"> - {{ order.deliveryDetails }}</span>
+                    }
                 </p>
                 <p class="text-sm ml-6">
                     @if(order.coordinates){
@@ -128,8 +131,9 @@
             </div>
 
             <!-- Acciones -->
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 justify-between">
               <!-- Cambiar estado rápido -->
+               <div class="flex flex-wrap gap-2 ">
               @if (order.status === 'pending') {
                 <button 
                   (click)="updateStatus(order._id, 'confirmed')"
@@ -151,12 +155,12 @@
                 class="btn-secondary bg-accent text-sm px-3 py-1">
                 ✏️ Editar
               </button>
-              
+              </div>
               <!-- Eliminar -->
               <button 
                 (click)="deleteOrder(order._id, order.customerName)"
                 class="btn-secondary bg-error text-white text-sm px-3 py-1">
-                🗑️ Eliminar
+                🗑️
               </button>
             </div>
           </article>
@@ -165,6 +169,6 @@
     }
   }
 
-  <!-- Modal del formulario -->
-  <!-- <app-order-form /> -->
+
+  <app-order-form />
 </section>

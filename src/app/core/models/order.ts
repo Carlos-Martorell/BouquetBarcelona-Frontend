@@ -5,6 +5,7 @@ export interface Order {
   customerPhone: string;
   customerEmail: string;
   deliveryAddress: string;
+  deliveryDetails?: string;
   coordinates?: {
     lat: number;
     lng: number;
@@ -31,6 +32,7 @@ export interface CreateOrder {
   customerPhone: string;
   customerEmail: string;
   deliveryAddress: string;
+  deliveryDetails?: string;
   coordinates?: {
     lat: number;
     lng: number;
@@ -48,6 +50,7 @@ export interface UpdateOrder {
   customerPhone?: string;
   customerEmail?: string;
   deliveryAddress?: string;
+  deliveryDetails?: string;
   coordinates?: {
     lat: number;
     lng: number;
