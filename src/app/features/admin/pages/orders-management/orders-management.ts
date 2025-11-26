@@ -82,15 +82,11 @@ export class OrdersManagement {
   }
 
   updateStatus(id: string, newStatus: string) {
-    console.log('🔄 Cambiando status:', { id, newStatus });
     this.ordersService.updateStatus(id, newStatus).subscribe({
-
-      next: (response) => {
-        console.log('✅ Status actualizado:', response);
+      next: () => {
         this.notificationService.showSuccess('Estado actualizado')
       },
-      error: (err) => {
-        console.error('❌ Error al actualizar:', err);
+      error: () => {
         this.notificationService.showError('Error al actualizar estado')
       }
     })

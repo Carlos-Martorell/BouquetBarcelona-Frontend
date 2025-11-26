@@ -1,14 +1,9 @@
 <div class="drawer lg:drawer-open" data-theme="bouquet-admin">
   
-  <!-- Checkbox oculto que controla el estado -->
   <input id="admin-drawer" type="checkbox" class="drawer-toggle" />
   
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- CONTENIDO PRINCIPAL (derecha) -->
-  <!-- ═══════════════════════════════════════════ -->
   <div class="drawer-content flex flex-col">
     
-    <!-- NAVBAR MOBILE (solo visible en móvil) -->
     <header class="navbar bg-primary text-white lg:hidden sticky top-0 z-30">
       <div class="flex-none">
         <label for="admin-drawer" class="btn btn-square btn-ghost">
@@ -22,30 +17,24 @@
       </div>
     </header>
     
-    <!-- CONTENIDO DE LAS PÁGINAS -->
+    
     <main class="flex-1 p-4 lg:p-6 bg-background min-h-screen">
       <router-outlet />
     </main>
   </div>
   
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- SIDEBAR (izquierda) -->
-  <!-- ═══════════════════════════════════════════ -->
+
   <div class="drawer-side z-40">
-    
-    <!-- Overlay oscuro (cierra al hacer click) -->
+
     <label for="admin-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
     
-    <!-- Contenido del sidebar -->
     <aside class="min-h-full w-64 bg-primary text-white flex flex-col">
       
-      <!-- LOGO -->
       <div class="p-6 border-b border-white/20">
         <h1 class="text-xl font-bold">🌸 Bouquet</h1>
         <p class="text-sm text-white/70">Admin Panel</p>
       </div>
       
-      <!-- NAVEGACIÓN -->
       <nav class="flex-1 p-4">
         <ul class="space-y-2">
           @for (item of navItems; track item.path) {
@@ -62,7 +51,6 @@
         </ul>
       </nav>
       
-      <!-- FOOTER -->
       <div class="p-4 border-t border-white/20">
         <p class="text-xs text-white/50 text-center">v1.0.0</p>
       </div>
