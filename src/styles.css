@@ -49,7 +49,7 @@ h1, h2, h3, .font-display {
     @apply text-background bg-primary px-4 py-2 hover:bg-success  whitespace-nowrap font-semibold rounded-lg transition-all transform hover:scale-105 shadow-xl;
   }
   .btn-secondary {
-    @apply  text-background px-4 py-2 rounded-lg hover:opacity-90 whitespace-nowrap transition-all font-medium;
+    @apply  text-background px-4 py-2 rounded-lg hover:opacity-75 whitespace-nowrap transition-all font-medium;
   }
 }
 

@@ -45,6 +45,12 @@ export const routes: Routes = [
         loadComponent: () => 
             import('./features/admin/pages/analytics/analytics')
                 .then(m => m.Analytics)
+      },    
+      {
+        path:'orders',
+        loadComponent: () => 
+            import('./features/admin/pages/orders-management/orders-management')
+                .then(m => m.OrdersManagement)
       }     
     ]
   },
