@@ -152,7 +152,7 @@ export class MapsManagement implements AfterViewInit, OnDestroy {
         }
       });
 
-      currentMap.fitBounds(bounds, { padding: 50 }); 
+      currentMap.fitBounds(bounds, { padding: 50, maxZoom: 13 }); 
     }
   }
 

@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { OrdersService } from '@core/services/order/orders';
 import { NotificationService } from '@core/services/toast/notification';
-import { OrderFormService } from '../../services/order-form/order-form';
+import { OrderFormService } from '@serv-admin/order-form/order-form';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OrderForm } from "../../components/order-form/order-form";
+import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
+import { EditIcon } from "@shared/components/edit-icon/edit-icon";
 
 @Component({
   selector: 'app-orders-management',
-  imports: [CommonModule, DatePipe, OrderForm],
+  imports: [CommonModule, DatePipe, OrderForm, TrashIcon, EditIcon],
   templateUrl: './orders-management.html',
   styleUrl: './orders-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

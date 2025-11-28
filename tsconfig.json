@@ -24,6 +24,9 @@
       "@serv-admin/*": [
         "./src/app/features/admin/services/*" 
       ],
+      "@shared/*": [
+        "./src/app/shared/*" 
+      ],
     }
   },
   "angularCompilerOptions": {

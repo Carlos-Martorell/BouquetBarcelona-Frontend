@@ -3,11 +3,13 @@ import { FlowersService } from '@core/services/flowers/flowers';
 import { FlowerForm } from "../../components/flower-form/flower-form";
 import { FlowerFormService } from '../../services/flower-form/flower-form';
 import { NotificationService } from '@core/services/toast/notification';
+import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
+import { EditIcon } from "@shared/components/edit-icon/edit-icon";
 
 
 @Component({
   selector: 'app-flowers-management',
-  imports: [FlowerForm],
+  imports: [FlowerForm, TrashIcon, EditIcon],
   templateUrl: './flowers-management.html',
   styleUrl: './flowers-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

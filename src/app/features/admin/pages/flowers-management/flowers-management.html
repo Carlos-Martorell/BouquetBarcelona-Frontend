@@ -13,7 +13,6 @@
     </button>
 </header>
 
-  <!-- LOADING STATE -->
   @if (isLoading()) {
     <div class="text-center py-12 bg-background rounded-lg my-4 border border-border">
       <div class="spinner mx-auto animate-[spin_2s_linear_infinite]"></div>
@@ -21,7 +20,6 @@
     </div>
   }
 
-  <!-- ERROR STATE -->
   @if (errorMessage()) {
     <div class="bg-accent/50 border border-error p-6 rounded-lg shadow-sm">
       <div class="flex items-center text-center justify-around">
@@ -39,7 +37,6 @@
     </div>
   }
 
-  <!-- EMPTY STATE -->
   @if (!isLoading() && !errorMessage() && !hasFlowers()) {
     <div class="text-center py-16 bg-background rounded-lg my-4 border border-border">
       <span class="text-6xl mb-4 block">🌸</span>
@@ -52,12 +49,12 @@
     </div>
   }
 
-  <!-- SUCCESS STATE: LISTA DE RAMOS -->
+ 
   @if (!isLoading() && !errorMessage() && hasFlowers()) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 my-4 ">
       @for (flower of flowersService.flowers(); track flower._id) {
-        <article class="border border-border bg-background rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:border-accent transition-all">
-          <!-- IMAGEN -->
+        <article class="border border-border bg-background rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:border-accent transition-all min-w-[350px]">
+        
           <div class="aspect-square bg-background relative">
             @if (flower.images && flower.images.length > 0) {
               <img 
@@ -73,7 +70,6 @@
             }
           </div>
 
-          <!-- CONTENIDO -->
           <div class="p-5">
             <h3 class="text-xl font-bold mb-2 text-primary">{{ flower.name }}</h3>
             <p class="text-text/80 text-sm mb-3 line-clamp-2">{{ flower.description }}</p>
@@ -89,17 +85,17 @@
               </span>
             </div>
 
-            <!-- BOTONES DE ACCIÓN -->
-            <div class="flex gap-2">
+            <div class="flex gap-4">
               <button 
                 (click)="openEditModal(flower._id)"
-                class="flex-1 btn-secondary bg-secondary  px-4 py-2 ">
-                ✏️ Editar
+                class="flex-1 btn-secondary bg-secondary px-4 py-2 ">
+                 <app-edit-icon class="align-middle mr-2"/> Editar
               </button>
               <button 
                 (click)="deleteFlower(flower._id, flower.name)"
-                class="flex-1 btn-secondary bg-error">
-                🗑️ Eliminar
+                class="flex-1 btn-secondary bg-error items-center">
+                  <app-trash-icon class="align-middle mr-2.5"/> 
+                  <span class="align-middle">Eliminar</span>
               </button>
             </div>
           </div>

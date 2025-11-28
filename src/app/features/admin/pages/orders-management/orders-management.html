@@ -153,14 +153,14 @@
               <button 
                 (click)="openEditModal(order._id)"
                 class="btn-secondary bg-accent text-sm px-3 py-1">
-                ✏️ Editar
+                <app-edit-icon class="align-middle" />
               </button>
               </div>
               <!-- Eliminar -->
               <button 
                 (click)="deleteOrder(order._id, order.customerName)"
                 class="btn-secondary bg-error text-white text-sm px-3 py-1">
-                🗑️
+                <app-trash-icon class="mt-1.5"/>
               </button>
             </div>
           </article>
