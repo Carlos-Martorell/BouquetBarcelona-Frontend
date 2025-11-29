@@ -118,7 +118,7 @@ export class OrdersService {
       });
   });
 
-  // Helper: Calcular diferencia en minutos
+  // Calcular diferencia en minutos
   private getTimeDifference(start: string, end: string): number {
     const [startH, startM] = start.split(':').map(Number);
     const [endH, endM] = end.split(':').map(Number);
