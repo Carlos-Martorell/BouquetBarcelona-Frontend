@@ -6,6 +6,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OrderForm } from "../../components/order-form/order-form";
 import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
 import { EditIcon } from "@shared/components/edit-icon/edit-icon";
+import { Order } from '@core/models/order';
 
 @Component({
   selector: 'app-orders-management',
@@ -15,6 +16,7 @@ import { EditIcon } from "@shared/components/edit-icon/edit-icon";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersManagement {
+
   ordersService = inject(OrdersService);
   notificationService = inject(NotificationService);
   formService = inject(OrderFormService);
@@ -64,7 +66,12 @@ export class OrdersManagement {
       }
     })
   }
-
+  getCalculatedTotal(order: Order): number {
+    return order.items.reduce(
+      (sum, item) => sum + (item.price * item.quantity),
+      0
+    );
+  }
   openCreateModal() {
     this.formService.openForCreate()
   }

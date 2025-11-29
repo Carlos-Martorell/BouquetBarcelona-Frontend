@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FlowersService } from '@core/services/flowers/flowers';
 import { OrdersService } from '@core/services/order/orders';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './order-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderForm {
+export class OrderForm implements AfterViewInit{
   private fb = inject(FormBuilder)
   private ordersService = inject(OrdersService)
   private flowersService = inject(FlowersService)
@@ -25,7 +25,7 @@ export class OrderForm {
   addressSuggestions = signal<AddressSuggestion[]>([]);
   isSubmitting = signal(false)
   availableFlowers = computed(() => this.flowersService.flowers())
-  total = computed (() => this.calculateTotal())
+  totalSignal = signal(0);
 
   selectedFlowerId: string = "";
   selectedQuantity: number = 1
@@ -58,6 +58,18 @@ export class OrderForm {
     });
   }
   
+  ngAfterViewInit() {
+  this.itemsArray.valueChanges.subscribe(() => {
+    this.updateTotal();
+  });
+}
+  private updateTotal(): void {
+    const total = this.itemsArray.value.reduce(
+      (sum: number, item: any) => sum + (item.price * item.quantity),
+      0
+    );
+    this.totalSignal.set(total);
+  }
 
   initForm() {
     this.orderForm = this.fb.group({
@@ -145,7 +157,7 @@ export class OrderForm {
 
     const formData = {
       ...this.orderForm.value,
-      total: this.total()
+      total: this.totalSignal()
     };
 
     const orderId = this.formService.editingOrderId();
@@ -208,6 +220,9 @@ export class OrderForm {
           price: [item.price]
         }));
       });
+
+          // Recalcular total después de cargar items
+    this.updateTotal();
     }
   
   private resetForm() {
@@ -216,6 +231,7 @@ export class OrderForm {
     });
     this.itemsArray.clear();
     this.addressSuggestions.set([]);
+    this.totalSignal.set(0);
   }
 
    hasError(fieldName: string): boolean {
