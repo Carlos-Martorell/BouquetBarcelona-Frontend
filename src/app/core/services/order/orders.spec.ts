@@ -195,3 +195,83 @@ describe('Orders', () => {
 
 });
 
+
+describe('Computed Signals', () => {
+  
+  let service: OrdersService;
+  let httpMock: HttpTestingController;
+  const apiUrl = `${environment.apiUrl}/api/orders`;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [ provideHttpClient(), provideHttpClientTesting(), OrdersService]
+    });
+    service = TestBed.inject(OrdersService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify()
+  })
+
+  it('should filter today orders', () => {
+
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+    const ordersWithDates: Order[] = [
+      { ...mockOrders[0], deliveryDate: today },     
+      { ...mockOrders[1], deliveryDate: tomorrowStr } 
+    ];
+
+    service.getAll().subscribe();
+    httpMock.expectOne(apiUrl).flush(ordersWithDates);
+
+    const todayOrders = service.todayOrders();
+    expect(todayOrders.length).toBe(1);
+    expect(todayOrders[0].deliveryDate).toBe(today);
+ 
+  });
+
+  it('should filter pending orders', () => {
+
+    service.getAll().subscribe();
+    httpMock.expectOne(apiUrl).flush(mockOrders);
+
+    const pendingOrders = service.pendingOrders();
+    expect(pendingOrders.length).toBe(1);
+    expect(pendingOrders[0].status).toBe('pending');
+    
+  });
+
+  it('should calculate today total', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const ordersToday: Order[] = [
+      { ...mockOrders[0], deliveryDate: today, total: 100 },
+      { ...mockOrders[1], deliveryDate: today, total: 50 }
+    ];
+
+    service.getAll().subscribe();
+    httpMock.expectOne(apiUrl).flush(ordersToday);
+
+    const total = service.todayTotal();
+    expect(total).toBe(150);
+  });
+
+  it('should sort today orders by time', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const unsortedOrders: Order[] = [
+      { ...mockOrders[0], deliveryDate: today, deliveryTime: '14:00-15:00' },
+      { ...mockOrders[1], deliveryDate: today, deliveryTime: '10:00-11:00' }
+    ];
+
+    service.getAll().subscribe();
+    httpMock.expectOne(apiUrl).flush(unsortedOrders);
+
+    const sorted = service.todayOrdersSorted();
+    expect(sorted[0].deliveryTime).toBe('10:00-11:00');
+    expect(sorted[1].deliveryTime).toBe('14:00-15:00');
+  });
+});
