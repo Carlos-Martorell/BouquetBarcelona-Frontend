@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-order-form',
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './order-form.html',
-  styleUrl: './order-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderForm implements AfterViewInit{

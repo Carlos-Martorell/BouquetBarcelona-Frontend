@@ -7,7 +7,6 @@ import { OrdersService } from '@core/services/order/orders';
   selector: 'app-dashboard',
   imports: [RouterLink],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard {

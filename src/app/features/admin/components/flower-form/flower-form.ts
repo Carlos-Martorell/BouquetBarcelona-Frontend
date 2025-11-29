@@ -7,7 +7,6 @@ import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
   selector: 'app-flower-form',
   imports: [ReactiveFormsModule],
   templateUrl: './flower-form.html',
-  styleUrl: './flower-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlowerForm implements OnInit {

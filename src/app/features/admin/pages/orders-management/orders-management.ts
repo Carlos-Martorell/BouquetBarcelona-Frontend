@@ -12,7 +12,6 @@ import { Order } from '@core/models/order';
   selector: 'app-orders-management',
   imports: [CommonModule, DatePipe, OrderForm, TrashIcon, EditIcon],
   templateUrl: './orders-management.html',
-  styleUrl: './orders-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersManagement {

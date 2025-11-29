@@ -13,7 +13,6 @@ import { NotificationService } from '@core/services/toast/notification';
   selector: 'app-calendar',
   imports: [CommonModule, FullCalendarModule],
   templateUrl: './calendar.html',
-  styleUrl: './calendar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Calendar implements OnInit {

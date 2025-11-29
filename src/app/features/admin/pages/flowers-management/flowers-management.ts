@@ -11,7 +11,6 @@ import { EditIcon } from "@shared/components/edit-icon/edit-icon";
   selector: 'app-flowers-management',
   imports: [FlowerForm, TrashIcon, EditIcon],
   templateUrl: './flowers-management.html',
-  styleUrl: './flowers-management.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlowersManagement implements OnInit {

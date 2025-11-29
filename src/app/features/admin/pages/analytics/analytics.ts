@@ -10,9 +10,8 @@ import { ProductsBarChart } from './components/products-bar-chart/products-bar-c
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule, SalesLineChart, OrdersDoughnut, ProductsBarChart, DecimalPipe],
+  imports: [CommonModule, SalesLineChart, OrdersDoughnut, ProductsBarChart],
   templateUrl: './analytics.html',
-  styleUrl: './analytics.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Analytics implements OnInit {
