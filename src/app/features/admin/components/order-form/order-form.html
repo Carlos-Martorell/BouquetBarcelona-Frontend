@@ -5,10 +5,10 @@
     (click)="close()">
     
     <div 
-      class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl"
+      class="bg-white rounded-xl max-w-3xl w-full max-h-[98vh] flex flex-col shadow-2xl"
       (click)="$event.stopPropagation()">
       
-      <header class="flex justify-between items-center p-6 border-b border-border">
+      <header class="flex justify-between items-center p-4 border-b border-border">
         <h2 class="text-2xl font-bold text-primary">
           {{ formService.editingOrderId() ? 'Editar Pedido' : 'Nuevo Pedido' }}
         </h2>
@@ -22,9 +22,9 @@
       <form 
         [formGroup]="orderForm" 
         (ngSubmit)="onSubmit()" 
-        class="p-6 overflow-y-auto flex-1">
+        class="p-4 overflow-y-auto flex-1">
         
-        <section class="mb-8">
+        <section class="mb-4">
           <h3 class="text-lg font-semibold text-primary mb-4">👤 Datos del Cliente</h3>
           
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -89,3 +89,18 @@ h1, h2, h3, .font-display {
 .animate-slideUp {
   animation: slideUp 0.3s ease-out;
 }
+
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+[role="button"] {
+  cursor: pointer;
+}
+
+
+a,
+[onclick],
+[ng-click] {
+  cursor: pointer;
+}

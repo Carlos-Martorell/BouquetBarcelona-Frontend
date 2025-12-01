@@ -198,13 +198,15 @@ export class OrderForm implements AfterViewInit{
       const order = this.ordersService.orders().find(o => o._id === id);
       if (!order) return;
 
+      const formattedDate = order.deliveryDate.split('T')[0];
+
       this.orderForm.patchValue({
         customerName: order.customerName,
         customerPhone: order.customerPhone,
         customerEmail: order.customerEmail,
         deliveryAddress: order.deliveryAddress,
         deliveryDetails: order.deliveryDetails,
-        deliveryDate: order.deliveryDate,
+        deliveryDate: formattedDate,
         deliveryTime: order.deliveryTime,
         status: order.status,
         notes: order.notes
