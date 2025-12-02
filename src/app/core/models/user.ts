@@ -7,20 +7,17 @@ export interface User {
   address?: string;
 }
 
-///Respuesta Backend
+///Respuesta Backend al LOGIN
 export interface LoginResponse {
   access_token: string;
   user: User;
 }
 
-export interface LoginData {
+
+/// Tipado de entrada de datos con POST REGISTER
+export interface RegisterData {
+  name: string;
   email: string;
   password: string;
-}
-
-
-/// Tipado de entrada de datos con POST register
-export interface RegisterData extends LoginData {
-  name: string;
   phone?: string;
 }
