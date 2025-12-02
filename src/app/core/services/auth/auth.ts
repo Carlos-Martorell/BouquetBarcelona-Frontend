@@ -19,12 +19,8 @@ export class AuthService {
   tokenSignal = signal<string | null>(null);
   readonly currentUser = this.currentUserSignal.asReadonly()
   readonly token = this.tokenSignal.asReadonly()
-  isLoggedIn = computed(() => {
-    !!this.token()
-  })
-  isAdmin = computed(() => {
-    this.currentUser()?.role === 'admin'
-  })
+  isLoggedIn = computed(() => !!this.token())
+  isAdmin = computed(() => this.currentUser()?.role === 'admin')
 
    constructor() {
     this.loadFromStorage();
@@ -72,6 +68,6 @@ export class AuthService {
 
     logout() {
     this.clearAuth();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 }
