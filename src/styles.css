@@ -1,5 +1,4 @@
-
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui";
 @import 'mapbox-gl/dist/mapbox-gl.css';
 /* MINIMAL THEME */
@@ -8,8 +7,8 @@
 
  */
 
-
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -17,31 +16,34 @@ html, body {
 
 body {
   /* Montserrat para el cuerpo y como fuente base */
-  font-family: 'Montserrat', sans-serif; 
+  font-family: 'Montserrat', sans-serif;
 }
 /* Ejemplo para usar Cormorant en los títulos */
-h1, h2, h3, .font-display {
+h1,
+h2,
+h3,
+.font-display {
   /* Cormorant Garamond para el estilo premium */
   font-family: 'Cormorant Upright', serif;
 }
 
 @theme {
-  --color-text: #2d3748;          /* Carbón */
-  --color-background: #f7fafc;    /* Gris hielo */
-  --color-primary: #744c3e;       /* Chocolate francés */
-  --color-secondary: #c9a689;     /* Arena */
-  --color-accent: #d4a5a5;        /* Rosa viejo */
-  --color-success: #8fa998;       /* Salvia */
-  --color-error: #b85450;         /* Burdeos suave */
-  --color-border: #e8e3df;        /* Pergamino */
+  --color-text: #2d3748; /* Carbón */
+  --color-background: #f7fafc; /* Gris hielo */
+  --color-primary: #744c3e; /* Chocolate francés */
+  --color-secondary: #c9a689; /* Arena */
+  --color-accent: #d4a5a5; /* Rosa viejo */
+  --color-success: #8fa998; /* Salvia */
+  --color-error: #b85450; /* Burdeos suave */
+  --color-border: #e8e3df; /* Pergamino */
 }
 
 /*Colors Daisy*/
 :root {
-  --color-base-100: #f7fafc;      /* background */
-  --color-base-200: #e8e3df;      /* border */
-  --color-base-300: #744c3e;      /* primary */
-  --color-base-content: #2d3748;  /* text */
+  --color-base-100: #f7fafc; /* background */
+  --color-base-200: #e8e3df; /* border */
+  --color-base-300: #744c3e; /* primary */
+  --color-base-content: #2d3748; /* text */
 }
 
 @layer components {
@@ -49,34 +51,37 @@ h1, h2, h3, .font-display {
     @apply text-background bg-primary px-4 py-2 hover:bg-success  whitespace-nowrap font-semibold rounded-lg transition-all transform hover:scale-105 shadow-xl;
   }
   .btn-secondary {
-    @apply  text-background px-4 py-2 rounded-lg hover:opacity-75 whitespace-nowrap transition-all font-medium;
+    @apply text-background px-4 py-2 rounded-lg hover:opacity-75 whitespace-nowrap transition-all font-medium;
   }
 }
 
 .spinner {
-    width: 60px; 
-    height: 60px;
-    margin: 0 auto 1rem; 
-    
-    /* Referencia a la imagen */
-    background-image: url('./assets/images/Margarita.png'); 
-    background-size: contain; 
-    /* background-repeat: no-repeat; */
-    background-position: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+
+  /* Referencia a la imagen */
+  background-image: url('./assets/images/Margarita.png');
+  background-size: contain;
+  /* background-repeat: no-repeat; */
+  background-position: center;
 }
 
-
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -94,10 +99,9 @@ button,
 .btn,
 .btn-primary,
 .btn-secondary,
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
-
 
 a,
 [onclick],

@@ -3,9 +3,9 @@ import { OrdersService } from '@core/services/order/orders';
 import { NotificationService } from '@core/services/toast/notification';
 import { OrderFormService } from '@serv-admin/order-form/order-form';
 import { CommonModule, DatePipe } from '@angular/common';
-import { OrderForm } from "../../components/order-form/order-form";
-import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
-import { EditIcon } from "@shared/components/edit-icon/edit-icon";
+import { OrderForm } from '../../components/order-form/order-form';
+import { TrashIcon } from '@shared/components/trash-icon/trash-icon';
+import { EditIcon } from '@shared/components/edit-icon/edit-icon';
 import { Order } from '@core/models/order';
 
 @Component({
@@ -15,37 +15,37 @@ import { Order } from '@core/models/order';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersManagement {
-
   ordersService = inject(OrdersService);
   notificationService = inject(NotificationService);
   formService = inject(OrderFormService);
 
   isLoading = signal(false);
-  errorMessage = signal<string | null>(null)
+  errorMessage = signal<string | null>(null);
 
   selectedStatus = signal<string>('all');
   searchQuery = signal('');
 
   filteredOrders = computed(() => {
-    let orders = this.ordersService.orders()
+    let orders = this.ordersService.orders();
 
-    if(this.selectedStatus() !== 'all') {
+    if (this.selectedStatus() !== 'all') {
       orders = orders.filter(o => o.status === this.selectedStatus());
     }
 
     const query = this.searchQuery().toLocaleLowerCase();
-    if(query) {
-      orders = orders.filter(o => 
-        o.customerName.toLocaleLowerCase().includes(query) ||
-        o.customerEmail.toLocaleLowerCase().includes(query) ||
-        o.deliveryAddress.toLocaleLowerCase().includes(query)
-      )
+    if (query) {
+      orders = orders.filter(
+        o =>
+          o.customerName.toLocaleLowerCase().includes(query) ||
+          o.customerEmail.toLocaleLowerCase().includes(query) ||
+          o.deliveryAddress.toLocaleLowerCase().includes(query)
+      );
     }
 
-    return orders.sort((a, b) => 
-      new Date(b.deliveryDate).getTime() - new Date(a.deliveryDate).getTime()
-    )
-  })
+    return orders.sort(
+      (a, b) => new Date(b.deliveryDate).getTime() - new Date(a.deliveryDate).getTime()
+    );
+  });
 
   orderCount = computed(() => this.filteredOrders().length);
 
@@ -62,41 +62,38 @@ export class OrdersManagement {
       error: () => {
         this.isLoading.set(false);
         this.errorMessage.set('Error al cargar pedidos');
-      }
-    })
+      },
+    });
   }
   getCalculatedTotal(order: Order): number {
-    return order.items.reduce(
-      (sum, item) => sum + (item.price * item.quantity),
-      0
-    );
+    return order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
   openCreateModal() {
-    this.formService.openForCreate()
+    this.formService.openForCreate();
   }
 
   openEditModal(id: string) {
-    this.formService.openForEdit(id)
+    this.formService.openForEdit(id);
   }
 
   deleteOrder(orderId: string, customerName: string) {
     if (!confirm(`¿Eliminar pedido de ${customerName}?`)) return;
-    
+
     this.ordersService.delete(orderId).subscribe({
       next: () => this.notificationService.showSuccess(`Pedido de ${customerName} eliminado`),
-      error: () => this.notificationService.showError('Error al eliminar el pedido')
+      error: () => this.notificationService.showError('Error al eliminar el pedido'),
     });
   }
 
   updateStatus(id: string, newStatus: string) {
     this.ordersService.updateStatus(id, newStatus).subscribe({
       next: () => {
-        this.notificationService.showSuccess('Estado actualizado')
+        this.notificationService.showSuccess('Estado actualizado');
       },
       error: () => {
-        this.notificationService.showError('Error al actualizar estado')
-      }
-    })
+        this.notificationService.showError('Error al actualizar estado');
+      },
+    });
   }
 
   getStatusLabel(status: string): string {
@@ -104,17 +101,17 @@ export class OrdersManagement {
       pending: 'Pendiente',
       confirmed: 'Confirmado',
       delivered: 'Entregado',
-      cancelled: 'Cancelado'
+      cancelled: 'Cancelado',
     };
     return labels[status] || status;
   }
-  
+
   getStatusColor(status: string): string {
     const colors: Record<string, string> = {
       pending: 'bg-secondary text-text',
       confirmed: 'bg-success text-white',
       delivered: 'bg-primary text-white',
-      cancelled: 'bg-error text-white'
+      cancelled: 'bg-error text-white',
     };
     return colors[status] || 'bg-gray-500 text-white';
   }

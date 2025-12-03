@@ -8,27 +8,25 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class OrdersService {
-
-  private http = inject(HttpClient)
-  private readonly apiUrlLH = 'http://localhost:3000/api/orders'
+  private http = inject(HttpClient);
+  private readonly apiUrlLH = 'http://localhost:3000/api/orders';
   private readonly apiUrl = `${environment.apiUrl}/api/orders`;
-  
+
   private ordersSignal = signal<Order[]>([]);
   readonly orders = this.ordersSignal.asReadonly();
-  
 
   readonly orderCount = computed(() => this.orders().length);
 
- readonly todayOrders = computed(() => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  return this.orders().filter(order => {
-    const orderDate = new Date(order.deliveryDate);
-    orderDate.setHours(0, 0, 0, 0);
-    return orderDate.getTime() === today.getTime();
+  readonly todayOrders = computed(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return this.orders().filter(order => {
+      const orderDate = new Date(order.deliveryDate);
+      orderDate.setHours(0, 0, 0, 0);
+      return orderDate.getTime() === today.getTime();
+    });
   });
-});
 
   readonly pendingOrders = computed(() =>
     this.orders().filter(order => order.status === 'pending')
@@ -47,9 +45,7 @@ export class OrdersService {
   );
 
   getAll(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl).pipe(
-      tap(orders => this.ordersSignal.set(orders))
-    );
+    return this.http.get<Order[]>(this.apiUrl).pipe(tap(orders => this.ordersSignal.set(orders)));
   }
 
   getOne(id: string): Observable<Order> {
@@ -67,9 +63,7 @@ export class OrdersService {
   update(id: string, order: UpdateOrder): Observable<Order> {
     return this.http.patch<Order>(`${this.apiUrl}/${id}`, order).pipe(
       tap(updatedOrder => {
-        this.ordersSignal.update(orders =>
-          orders.map(o => o._id === id ? updatedOrder : o)
-        );
+        this.ordersSignal.update(orders => orders.map(o => (o._id === id ? updatedOrder : o)));
       })
     );
   }
@@ -77,9 +71,7 @@ export class OrdersService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
-        this.ordersSignal.update(orders =>
-          orders.filter(o => o._id !== id)
-        );
+        this.ordersSignal.update(orders => orders.filter(o => o._id !== id));
       })
     );
   }
@@ -97,7 +89,7 @@ export class OrdersService {
   }
 
   readonly todayOrdersSorted = computed(() => {
-      return this.todayOrders().sort((a, b) => {
+    return this.todayOrders().sort((a, b) => {
       // Extraer horas de inicio
       const startA = a.deliveryTime.split('-')[0];
       const startB = b.deliveryTime.split('-')[0];
@@ -106,35 +98,31 @@ export class OrdersService {
       if (startA === startB) {
         const endA = a.deliveryTime.split('-')[1];
         const endB = b.deliveryTime.split('-')[1];
-        
+
         const durationA = this.getTimeDifference(startA, endA);
         const durationB = this.getTimeDifference(startB, endB);
-        
+
         return durationA - durationB; // Más corta primero
       }
 
       // Ordenar por hora de inicio
       return startA.localeCompare(startB);
-      });
+    });
   });
 
   // Calcular diferencia en minutos
   private getTimeDifference(start: string, end: string): number {
     const [startH, startM] = start.split(':').map(Number);
     const [endH, endM] = end.split(':').map(Number);
-    
-    return (endH * 60 + endM) - (startH * 60 + startM);
+
+    return endH * 60 + endM - (startH * 60 + startM);
   }
 
   updateStatus(id: string, status: string): Observable<Order> {
-    return this.http.patch<Order>(`${this.apiUrl}/${id}/status`, { status })
-      .pipe(
-        tap(updatedOrder => {
-          this.ordersSignal.update(orders =>
-            orders.map(o => o._id === id ? updatedOrder : o)
-          );
-        })
-      );
+    return this.http.patch<Order>(`${this.apiUrl}/${id}/status`, { status }).pipe(
+      tap(updatedOrder => {
+        this.ordersSignal.update(orders => orders.map(o => (o._id === id ? updatedOrder : o)));
+      })
+    );
   }
-
 }

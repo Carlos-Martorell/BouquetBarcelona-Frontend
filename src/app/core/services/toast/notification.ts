@@ -1,4 +1,3 @@
-
 import { Injectable, signal } from '@angular/core';
 
 export interface Toast {
@@ -7,7 +6,7 @@ export interface Toast {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   private toastSignal = signal<Toast | null>(null);

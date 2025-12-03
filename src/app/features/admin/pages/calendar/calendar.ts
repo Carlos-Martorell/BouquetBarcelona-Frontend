@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core'; // useful for typechecking
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -8,7 +16,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { OrdersService } from '@core/services/order/orders';
 import { NotificationService } from '@core/services/toast/notification';
 
-
 @Component({
   selector: 'app-calendar',
   imports: [CommonModule, FullCalendarModule],
@@ -16,44 +23,41 @@ import { NotificationService } from '@core/services/toast/notification';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Calendar implements OnInit {
-
-  private ordersService = inject(OrdersService)
+  private ordersService = inject(OrdersService);
   private notificationService = inject(NotificationService);
-
 
   // Evento seleccionado para mostrar detalles
   selectedEvent = signal<any>(null);
   successMessage = signal<string | null>(null);
-  
+
   calendarOptions = signal<CalendarOptions>({
-     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-     initialView: 'dayGridMonth',
-     headerToolbar: {
-       left: 'prev,next today',
-       center: 'title',
-       right: 'dayGridMonth,timeGridWeek,timeGridDay'
-     },
-     locale: 'es',
-     firstDay: 1,
-     height: 'auto',
-     events: [], // ← Inicialmente vacío
-     eventClick: this.handleEventClick.bind(this),
-     eventTimeFormat: {
-       hour: '2-digit',
-       minute: '2-digit',
-       meridiem: false,
-       hour12: false
-     },
-     buttonText: {
-       today: 'Hoy',
-       month: 'Mes',
-       week: 'Semana',
-       day: 'Día'
-     }
-   });
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    locale: 'es',
+    firstDay: 1,
+    height: 'auto',
+    events: [], // ← Inicialmente vacío
+    eventClick: this.handleEventClick.bind(this),
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      meridiem: false,
+      hour12: false,
+    },
+    buttonText: {
+      today: 'Hoy',
+      month: 'Mes',
+      week: 'Semana',
+      day: 'Día',
+    },
+  });
 
-
-constructor() {
+  constructor() {
     effect(() => {
       const events = this.ordersService.orders().map(order => ({
         id: order._id,
@@ -68,19 +72,19 @@ constructor() {
           address: order.deliveryAddress,
           total: order.total,
           status: order.status,
-          items: order.items
-        }
-      })) 
-    this.calendarOptions.update(options => ({
-      ...options,
-      events: events
-    }));
-    })
-}
-      
-ngOnInit(): void {
-  this.ordersService.getAll().subscribe()
-}
+          items: order.items,
+        },
+      }));
+      this.calendarOptions.update(options => ({
+        ...options,
+        events: events,
+      }));
+    });
+  }
+
+  ngOnInit(): void {
+    this.ordersService.getAll().subscribe();
+  }
 
   handleEventClick(clickInfo: EventClickArg) {
     this.selectedEvent.set({
@@ -88,7 +92,7 @@ ngOnInit(): void {
       title: clickInfo.event.title,
       start: clickInfo.event.start,
       end: clickInfo.event.end,
-      ...clickInfo.event.extendedProps
+      ...clickInfo.event.extendedProps,
     });
   }
 
@@ -98,20 +102,20 @@ ngOnInit(): void {
 
   private getStatusColor(status: string): string {
     const colors: Record<string, string> = {
-      pending: 'var(--color-secondary)',   
-      confirmed: 'var(--color-success)',    
-      delivered: 'var(--color-primary)',   
-      cancelled: 'var(--color-error)'
+      pending: 'var(--color-secondary)',
+      confirmed: 'var(--color-success)',
+      delivered: 'var(--color-primary)',
+      cancelled: 'var(--color-error)',
     };
     return colors[status] || '#744c3e';
   }
 
-    getStatusBadgeClasses(status: string): string {
+  getStatusBadgeClasses(status: string): string {
     const classes: Record<string, string> = {
       pending: 'bg-secondary text-text',
       confirmed: 'bg-success text-white',
       delivered: 'bg-primary text-white',
-      cancelled: 'bg-error text-white'
+      cancelled: 'bg-error text-white',
     };
     return classes[status] || 'bg-secondary text-text';
   }
@@ -121,11 +125,10 @@ ngOnInit(): void {
       pending: 'Pendiente',
       confirmed: 'Confirmado',
       delivered: 'Entregado',
-      cancelled: 'Cancelado'
+      cancelled: 'Cancelado',
     };
     return labels[status] || status;
   }
-
 
   updateOrderStatus(orderId: string, newStatus: string) {
     this.ordersService.update(orderId, { status: newStatus as any }).subscribe({
@@ -135,9 +138,7 @@ ngOnInit(): void {
       },
       error: () => {
         this.notificationService.showError('Error al actualizar el estado');
-      }
-
+      },
     });
   }
-
 }

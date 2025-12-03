@@ -1,5 +1,21 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { FlowersService } from '@core/services/flowers/flowers';
 import { OrdersService } from '@core/services/order/orders';
 import { OrderFormService } from '@serv-admin/order-form/order-form';
@@ -13,21 +29,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: './order-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderForm implements AfterViewInit{
-  private fb = inject(FormBuilder)
-  private ordersService = inject(OrdersService)
-  private flowersService = inject(FlowersService)
-  private notificationService = inject(NotificationService)
-  private geocodingService = inject(GeocodingService)
-  formService = inject(OrderFormService)
-  
+export class OrderForm implements AfterViewInit {
+  private fb = inject(FormBuilder);
+  private ordersService = inject(OrdersService);
+  private flowersService = inject(FlowersService);
+  private notificationService = inject(NotificationService);
+  private geocodingService = inject(GeocodingService);
+  formService = inject(OrderFormService);
+
   addressSuggestions = signal<AddressSuggestion[]>([]);
-  isSubmitting = signal(false)
-  availableFlowers = computed(() => this.flowersService.flowers())
+  isSubmitting = signal(false);
+  availableFlowers = computed(() => this.flowersService.flowers());
   totalSignal = signal(0);
 
-  selectedFlowerId: string = "";
-  selectedQuantity: number = 1
+  selectedFlowerId: string = '';
+  selectedQuantity: number = 1;
 
   orderForm!: FormGroup;
 
@@ -44,7 +60,7 @@ export class OrderForm implements AfterViewInit{
 
   constructor() {
     this.initForm();
-     if (this.availableFlowers().length === 0) {
+    if (this.availableFlowers().length === 0) {
       this.flowersService.getAll().subscribe();
     }
     effect(() => {
@@ -56,15 +72,15 @@ export class OrderForm implements AfterViewInit{
       }
     });
   }
-  
+
   ngAfterViewInit() {
-  this.itemsArray.valueChanges.subscribe(() => {
-    this.updateTotal();
-  });
-}
+    this.itemsArray.valueChanges.subscribe(() => {
+      this.updateTotal();
+    });
+  }
   private updateTotal(): void {
     const total = this.itemsArray.value.reduce(
-      (sum: number, item: any) => sum + (item.price * item.quantity),
+      (sum: number, item: any) => sum + item.price * item.quantity,
       0
     );
     this.totalSignal.set(total);
@@ -81,15 +97,14 @@ export class OrderForm implements AfterViewInit{
       deliveryTime: ['', Validators.required],
       items: this.fb.array([]),
       status: ['pending'],
-      notes: ['']
-      
-    })
+      notes: [''],
+    });
   }
 
   get itemsArray(): FormArray {
     return this.orderForm.get('items') as FormArray;
   }
-  
+
   addProduct() {
     if (!this.selectedFlowerId) {
       this.notificationService.showError('Selecciona un producto');
@@ -99,12 +114,14 @@ export class OrderForm implements AfterViewInit{
     const flower = this.availableFlowers().find(f => f._id === this.selectedFlowerId);
     if (!flower) return;
 
-    this.itemsArray.push(this.fb.group({
-      flowerId: [flower._id],
-      flowerName: [flower.name],
-      quantity: [this.selectedQuantity],
-      price: [flower.price]
-    }));
+    this.itemsArray.push(
+      this.fb.group({
+        flowerId: [flower._id],
+        flowerName: [flower.name],
+        quantity: [this.selectedQuantity],
+        price: [flower.price],
+      })
+    );
 
     this.selectedFlowerId = '';
     this.selectedQuantity = 1;
@@ -113,10 +130,10 @@ export class OrderForm implements AfterViewInit{
   removeProduct(index: number) {
     this.itemsArray.removeAt(index);
   }
-  
+
   private calculateTotal(): number {
     return this.itemsArray.value.reduce(
-      (sum: number, item: any) => sum + (item.price * item.quantity),
+      (sum: number, item: any) => sum + item.price * item.quantity,
       0
     );
   }
@@ -135,7 +152,7 @@ export class OrderForm implements AfterViewInit{
 
   selectAddress(suggestion: AddressSuggestion) {
     this.orderForm.patchValue({
-      deliveryAddress: suggestion.place_name
+      deliveryAddress: suggestion.place_name,
     });
     this.addressSuggestions.set([]);
   }
@@ -156,13 +173,12 @@ export class OrderForm implements AfterViewInit{
 
     const formData = {
       ...this.orderForm.value,
-      total: this.totalSignal()
+      total: this.totalSignal(),
     };
 
     const orderId = this.formService.editingOrderId();
 
     if (orderId) {
-     
       this.ordersService.update(orderId, formData).subscribe({
         next: () => {
           this.notificationService.showSuccess('Pedido actualizado');
@@ -172,10 +188,9 @@ export class OrderForm implements AfterViewInit{
         error: () => {
           this.notificationService.showError('Error al actualizar');
           this.isSubmitting.set(false);
-        }
+        },
       });
     } else {
-      
       this.ordersService.create(formData).subscribe({
         next: () => {
           this.notificationService.showSuccess('Pedido creado');
@@ -185,57 +200,59 @@ export class OrderForm implements AfterViewInit{
         error: () => {
           this.notificationService.showError('Error al crear');
           this.isSubmitting.set(false);
-        }
+        },
       });
     }
   }
-  
+
   close() {
     this.formService.close();
   }
 
   private loadOrderData(id: string) {
-      const order = this.ordersService.orders().find(o => o._id === id);
-      if (!order) return;
+    const order = this.ordersService.orders().find(o => o._id === id);
+    if (!order) return;
 
-      const formattedDate = order.deliveryDate.split('T')[0];
+    const formattedDate = order.deliveryDate.split('T')[0];
 
-      this.orderForm.patchValue({
-        customerName: order.customerName,
-        customerPhone: order.customerPhone,
-        customerEmail: order.customerEmail,
-        deliveryAddress: order.deliveryAddress,
-        deliveryDetails: order.deliveryDetails,
-        deliveryDate: formattedDate,
-        deliveryTime: order.deliveryTime,
-        status: order.status,
-        notes: order.notes
-      });
+    this.orderForm.patchValue({
+      customerName: order.customerName,
+      customerPhone: order.customerPhone,
+      customerEmail: order.customerEmail,
+      deliveryAddress: order.deliveryAddress,
+      deliveryDetails: order.deliveryDetails,
+      deliveryDate: formattedDate,
+      deliveryTime: order.deliveryTime,
+      status: order.status,
+      notes: order.notes,
+    });
 
-      this.itemsArray.clear();
-      order.items.forEach(item => {
-        this.itemsArray.push(this.fb.group({
+    this.itemsArray.clear();
+    order.items.forEach(item => {
+      this.itemsArray.push(
+        this.fb.group({
           flowerId: [item.flowerId],
           flowerName: [item.flowerName],
           quantity: [item.quantity],
-          price: [item.price]
-        }));
-      });
+          price: [item.price],
+        })
+      );
+    });
 
-          // Recalcular total después de cargar items
+    // Recalcular total después de cargar items
     this.updateTotal();
-    }
-  
+  }
+
   private resetForm() {
     this.orderForm.reset({
-      status: 'pending'
+      status: 'pending',
     });
     this.itemsArray.clear();
     this.addressSuggestions.set([]);
     this.totalSignal.set(0);
   }
 
-   hasError(fieldName: string): boolean {
+  hasError(fieldName: string): boolean {
     const field = this.orderForm.get(fieldName);
     return !!(field && field.invalid && field.touched);
   }

@@ -1,6 +1,21 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FlowersService } from '@core/services/flowers/flowers';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
 import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
 
 @Component({
@@ -10,7 +25,6 @@ import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlowerForm implements OnInit {
-
   private fb = inject(FormBuilder);
   private flowersService = inject(FlowersService);
   formService = inject(FlowerFormService);
@@ -18,27 +32,26 @@ export class FlowerForm implements OnInit {
   flowerForm!: FormGroup;
 
   isSubmitting = signal(false);
-  errorMessage = signal<string|null>(null);
-  hasMinimImages = computed(() => this.imageUrlsArray.length >= 3)
-  
+  errorMessage = signal<string | null>(null);
+  hasMinimImages = computed(() => this.imageUrlsArray.length >= 3);
+
   constructor() {
     effect(() => {
-      const flowerId = this.formService.editindFlowerId()
+      const flowerId = this.formService.editindFlowerId();
 
-      if(flowerId){
-        this.loadFlowerData(flowerId)
+      if (flowerId) {
+        this.loadFlowerData(flowerId);
       } else {
-        this.resetForm()
+        this.resetForm();
       }
-    })
+    });
   }
 
-  ngOnInit(){
-    this.initForm()
+  ngOnInit() {
+    this.initForm();
   }
 
-    
-  initForm(){
+  initForm() {
     this.flowerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       price: [0, [Validators.required, Validators.min(0.01)]],
@@ -49,29 +62,28 @@ export class FlowerForm implements OnInit {
         this.fb.control('', Validators.required),
         this.fb.control('', Validators.required),
         this.fb.control('', Validators.required),
-      ])
-    })
+      ]),
+    });
   }
 
-  get imageUrlsArray():FormArray<FormControl<string | null>> {
-    return this.flowerForm.get('imageUrls') as FormArray<FormControl<string | null>>
+  get imageUrlsArray(): FormArray<FormControl<string | null>> {
+    return this.flowerForm.get('imageUrls') as FormArray<FormControl<string | null>>;
   }
 
-  addImageUrlField () {
-    if(this.imageUrlsArray.length < 10) {
+  addImageUrlField() {
+    if (this.imageUrlsArray.length < 10) {
       this.imageUrlsArray.push(this.fb.control('', Validators.required));
     }
   }
 
   removeImageUrlField(index: number) {
-    if(this.imageUrlsArray.length > 3) {
-      this.imageUrlsArray.removeAt(index)
+    if (this.imageUrlsArray.length > 3) {
+      this.imageUrlsArray.removeAt(index);
     }
   }
 
-
   loadFlowerData(id: string) {
-    const flower = this.flowersService.flowers().find(f => f._id === id)
+    const flower = this.flowersService.flowers().find(f => f._id === id);
 
     if (flower) {
       this.flowerForm.patchValue({
@@ -80,13 +92,13 @@ export class FlowerForm implements OnInit {
         description: flower.description,
         category: flower.category,
         stock: flower.stock,
-      })
+      });
       this.imageUrlsArray.clear();
       flower.images.forEach(url => {
-        this.imageUrlsArray.push(this.fb.control(url, Validators.required))
-      })
+        this.imageUrlsArray.push(this.fb.control(url, Validators.required));
+      });
       while (this.imageUrlsArray.length < 3) {
-        this.imageUrlsArray.push(this.fb.control('', Validators.required))
+        this.imageUrlsArray.push(this.fb.control('', Validators.required));
       }
     }
   }
@@ -99,29 +111,30 @@ export class FlowerForm implements OnInit {
       price: 0,
       description: '',
       category: '',
-      stock: 0
-    })
+      stock: 0,
+    });
     this.imageUrlsArray.clear();
-    for(let i = 0; i < 3; i++) {
-      this.imageUrlsArray.push(this.fb.control('', Validators.required))
-
+    for (let i = 0; i < 3; i++) {
+      this.imageUrlsArray.push(this.fb.control('', Validators.required));
     }
-    this.errorMessage.set(null)
+    this.errorMessage.set(null);
   }
 
   onSubmit() {
-    if(this.flowerForm.invalid){
-      this.flowerForm.markAllAsTouched()
-      return
+    if (this.flowerForm.invalid) {
+      this.flowerForm.markAllAsTouched();
+      return;
     }
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
 
-    const images = this.imageUrlsArray.value.filter((url): url is string => url !== null && url.trim() !== '');
-    if(images.length < 3) {
+    const images = this.imageUrlsArray.value.filter(
+      (url): url is string => url !== null && url.trim() !== ''
+    );
+    if (images.length < 3) {
       this.errorMessage.set('Debes añadir al menos 3 imagenes.');
       this.isSubmitting.set(false);
-      return
+      return;
     }
     const formData = {
       name: this.flowerForm.value.name,
@@ -129,22 +142,21 @@ export class FlowerForm implements OnInit {
       description: this.flowerForm.value.description,
       category: this.flowerForm.value.category,
       stock: this.flowerForm.value.stock,
-      images: images
+      images: images,
     };
 
+    const flowerId = this.formService.editindFlowerId();
 
-    const flowerId = this.formService.editindFlowerId()
-
-    if(flowerId) {
-        this.flowersService.update(flowerId, formData).subscribe({
+    if (flowerId) {
+      this.flowersService.update(flowerId, formData).subscribe({
         next: () => {
           this.isSubmitting.set(false);
           this.formService.close();
         },
-        error: (err) => {
+        error: err => {
           this.errorMessage.set('Error al actualizar el ramo');
           this.isSubmitting.set(false);
-        }
+        },
       });
     } else {
       this.flowersService.create(formData).subscribe({
@@ -152,39 +164,37 @@ export class FlowerForm implements OnInit {
           this.isSubmitting.set(false);
           this.formService.close();
         },
-        error: (err) => {
+        error: err => {
           this.errorMessage.set('Error al crear el ramo');
           this.isSubmitting.set(false);
-        }
+        },
       });
     }
   }
 
-  onClose(){
-    this.formService.close()
+  onClose() {
+    this.formService.close();
   }
 
   hasError(fieldName: string): boolean {
     const field = this.flowerForm.get(fieldName);
-    return !!(field && field.invalid && field.touched)
+    return !!(field && field.invalid && field.touched);
   }
 
   hasErrorInArray(index: number): boolean {
     const control = this.imageUrlsArray.at(index);
-    return !!(control && control.invalid && control.touched)
+    return !!(control && control.invalid && control.touched);
   }
 
   getError(fieldName: string): string {
     const field = this.flowerForm.get(fieldName);
 
-    if(!field?.errors) return '';
+    if (!field?.errors) return '';
     if (field.errors['required']) return 'Este campo es obligatorio';
-    if (field.errors['minlength']) return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
+    if (field.errors['minlength'])
+      return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
     if (field.errors['min']) return `El valor mínimo es ${field.errors['min'].min}`;
-    
+
     return 'Campo inválido';
   }
-
-
-
 }

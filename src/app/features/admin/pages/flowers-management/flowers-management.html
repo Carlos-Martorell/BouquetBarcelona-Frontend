@@ -1,17 +1,12 @@
-
 <section class="container mx-auto">
-
-<header class="mt-8 mb-8 px-6 flex items-center justify-between gap-4"> 
+  <header class="mt-8 mb-8 px-6 flex items-center justify-between gap-4">
     <div>
       <h1 class="text-3xl font-bold mb-2 text-primary">Gestión de Ramos</h1>
       <p class="text-text">Total de modelos: {{ flowerCount() }}</p>
     </div>
-    
-    <button 
-      (click)="openCreateModal()"
-      class="btn-primary px-8 py-4 text-lg">  + Nuevo Ramo 
-    </button>
-</header>
+
+    <button (click)="openCreateModal()" class="btn-primary px-8 py-4 text-lg">+ Nuevo Ramo</button>
+  </header>
 
   @if (isLoading()) {
     <div class="text-center py-12 bg-background rounded-lg my-4 border border-border">
@@ -27,9 +22,10 @@
           <span class="text-text text-2xl">⚠️</span>
           <p class="font-bold text-text/80 mb-1">Oh, algo ha fallado...</p>
           <p class="text-text mb-3">{{ errorMessage() }}</p>
-          <button 
+          <button
             (click)="loadFlowers()"
-            class=" btn-secondary bg-error text-white px-4 py-2 rounded hover:opacity-90 transition-all">
+            class="btn-secondary bg-error text-white px-4 py-2 rounded hover:opacity-90 transition-all"
+          >
             🔄 Reintentar
           </button>
         </div>
@@ -41,24 +37,20 @@
     <div class="text-center py-16 bg-background rounded-lg my-4 border border-border">
       <span class="text-6xl mb-4 block">🌸</span>
       <p class="text-text text-lg mb-6">No hay ramos creados todavía</p>
-      <button 
-        (click)="openCreateModal()"
-        class="btn-primary px-6 py-3">
-        Crear primer ramo
-      </button>
+      <button (click)="openCreateModal()" class="btn-primary px-6 py-3">Crear primer ramo</button>
     </div>
   }
 
- 
   @if (!isLoading() && !errorMessage() && hasFlowers()) {
-    <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 my-4 ">
+    <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 my-4">
       @for (flower of flowersService.flowers(); track flower._id) {
-        <article class="border border-border bg-background rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:border-accent transition-all min-w-[350px]">
-        
+        <article
+          class="border border-border bg-background rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:border-accent transition-all min-w-[350px]"
+        >
           <div class="aspect-square bg-background relative">
             @if (flower.images && flower.images.length > 0) {
-              <img 
-                [src]="flower.images[0]" 
+              <img
+                [src]="flower.images[0]"
                 [alt]="'Ramo ' + flower.name"
                 class="w-full h-full object-cover"
                 loading="lazy"
@@ -73,7 +65,7 @@
           <div class="p-5">
             <h3 class="text-xl font-bold mb-2 text-primary">{{ flower.name }}</h3>
             <p class="text-text/80 text-sm mb-3 line-clamp-2">{{ flower.description }}</p>
-            
+
             <div class="flex items-center justify-between mb-3">
               <span class="text-2xl font-bold text-primary">{{ flower.price }}€</span>
               <span class="text-sm text-text/80">Stock: {{ flower.stock }}</span>
@@ -86,16 +78,15 @@
             </div>
 
             <div class="flex gap-4">
-              <button 
-                (click)="openEditModal(flower._id)"
-                class="flex-1 btn-secondary bg-secondary px-4 py-2 ">
-                 <app-edit-icon class="align-middle mr-2"/> Editar
+              <button (click)="openEditModal(flower._id)" class="flex-1 btn-secondary bg-secondary px-4 py-2">
+                <app-edit-icon class="align-middle mr-2" /> Editar
               </button>
-              <button 
+              <button
                 (click)="deleteFlower(flower._id, flower.name)"
-                class="flex-1 btn-secondary bg-error items-center">
-                  <app-trash-icon class="align-middle mr-2.5"/> 
-                  <span class="align-middle">Eliminar</span>
+                class="flex-1 btn-secondary bg-error items-center"
+              >
+                <app-trash-icon class="align-middle mr-2.5" />
+                <span class="align-middle">Eliminar</span>
               </button>
             </div>
           </div>

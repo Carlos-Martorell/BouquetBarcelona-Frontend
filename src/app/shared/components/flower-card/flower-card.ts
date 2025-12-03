@@ -7,6 +7,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './flower-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FlowerCard {
-
-}
+export class FlowerCard {}

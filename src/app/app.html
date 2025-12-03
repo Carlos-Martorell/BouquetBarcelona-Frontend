@@ -2,11 +2,12 @@
 
 @if (notificationService.toast()) {
   <div class="toast toast-top toast-end z-50">
-    <div 
+    <div
       class="alert"
       [class.alert-success]="notificationService.toast()?.type === 'success'"
       [class.alert-error]="notificationService.toast()?.type === 'error'"
-      [class.alert-info]="notificationService.toast()?.type === 'info'">
+      [class.alert-info]="notificationService.toast()?.type === 'info'"
+    >
       <span>{{ notificationService.toast()?.message }}</span>
     </div>
   </div>

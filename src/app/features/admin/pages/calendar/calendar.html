@@ -1,12 +1,10 @@
-
 <section>
-   <header class="mb-6">
+  <header class="mb-6">
     <h1 class="text-3xl font-bold text-primary">Calendario de Pedidos</h1>
     <p class="text-text/70">Gestiona las entregas programadas</p>
   </header>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    
     <!-- CALENDARIO (ocupa 2 columnas en desktop) -->
     <div class="lg:col-span-2 bg-white border border-border rounded-lg p-4 shadow-sm">
       <full-calendar [options]="calendarOptions()" />
@@ -15,41 +13,42 @@
     <!-- PANEL DE DETALLES -->
     <div class="bg-white border border-border rounded-lg p-4 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Detalles del Pedido</h3>
-      
+
       @if (selectedEvent()) {
         <div class="space-y-4">
           <div>
             <p class="text-sm text-text/70">Cliente</p>
             <p class="font-semibold text-text">{{ selectedEvent().customerName }}</p>
           </div>
-          
+
           <div>
             <p class="text-sm text-text/70">Teléfono</p>
             <p class="font-semibold text-text">{{ selectedEvent().customerPhone }}</p>
           </div>
-          
+
           <div>
             <p class="text-sm text-text/70">Hora de entrega</p>
             <p class="font-semibold text-text">
-              {{ selectedEvent().start | date:'HH:mm' }} - {{ selectedEvent().end | date:'HH:mm' }}
+              {{ selectedEvent().start | date: 'HH:mm' }} - {{ selectedEvent().end | date: 'HH:mm' }}
             </p>
           </div>
-          
+
           <div>
             <p class="text-sm text-text/70">Dirección</p>
             <p class="font-semibold text-text text-sm">{{ selectedEvent().address }}</p>
           </div>
-          
+
           <div>
             <p class="text-sm text-text/70">Total</p>
             <p class="font-semibold text-text text-xl">{{ selectedEvent().total }}€</p>
           </div>
-          
+
           <div>
             <p class="text-sm text-text/70 mb-2">Estado</p>
-            <span 
+            <span
               class="inline-block px-3 py-1 rounded-full text-sm font-medium"
-              [class]="getStatusBadgeClasses(selectedEvent().status)">
+              [class]="getStatusBadgeClasses(selectedEvent().status)"
+            >
               {{ getStatusLabel(selectedEvent().status) }}
             </span>
           </div>
@@ -57,22 +56,25 @@
           <!-- BOTONES DE ACCIÓN -->
           <div class="pt-4 border-t border-border space-y-2">
             @if (selectedEvent().status === 'pending') {
-              <button 
+              <button
                 (click)="updateOrderStatus(selectedEvent().id, 'confirmed')"
-                class="w-full bg-success text-white py-2 rounded-lg hover:bg-success/90 transition-all">
+                class="w-full bg-success text-white py-2 rounded-lg hover:bg-success/90 transition-all"
+              >
                 ✓ Confirmar Pedido
               </button>
             }
             @if (selectedEvent().status === 'confirmed') {
-              <button 
+              <button
                 (click)="updateOrderStatus(selectedEvent().id, 'delivered')"
-                class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition-all">
+                class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition-all"
+              >
                 📦 Marcar como Entregado
               </button>
             }
-            <button 
+            <button
               (click)="closeEventDetails()"
-              class="w-full border-2 border-border py-2 rounded-lg hover:bg-background transition-all">
+              class="w-full border-2 border-border py-2 rounded-lg hover:bg-background transition-all"
+            >
               Cerrar
             </button>
           </div>
@@ -80,9 +82,7 @@
       } @else {
         <div class="text-center py-12">
           <p class="text-6xl mb-4">📅</p>
-          <p class="text-text/50">
-            Haz clic en un evento del calendario para ver los detalles
-          </p>
+          <p class="text-text/50">Haz clic en un evento del calendario para ver los detalles</p>
         </div>
       }
     </div>

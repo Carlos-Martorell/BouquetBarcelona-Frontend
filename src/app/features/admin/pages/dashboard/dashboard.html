@@ -52,20 +52,21 @@
     <!-- COLUMNA 1: CALENDARIO MINI (día) -->
     <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Orden de entregas</h3>
-      
+
       @if (ordersService.todayOrders().length > 0) {
         <div class="space-y-2">
           @for (order of ordersService.todayOrdersSorted(); track order._id) {
             <div class="flex items-center gap-2 p-2 bg-background rounded-lg text-sm">
               <span class="font-mono text-xs text-text/70">{{ order.deliveryTime }}</span>
               <div class="flex">
-                <p class="font-medium text-text truncate">{{ '#'+ ordersService.getShortId(order._id) }}</p>
+                <p class="font-medium text-text truncate">{{ '#' + ordersService.getShortId(order._id) }}</p>
               </div>
-              <span 
+              <span
                 class="w-2 h-2 rounded-full"
                 [class.bg-success]="order.status === 'confirmed'"
                 [class.bg-secondary]="order.status === 'pending'"
-                [class.bg-primary]="order.status === 'delivered'">
+                [class.bg-primary]="order.status === 'delivered'"
+              >
               </span>
             </div>
           }
@@ -73,30 +74,29 @@
       } @else {
         <p class="text-text/50 text-center py-8">Sin entregas programadas</p>
       }
-      
+
       <a routerLink="/admin/calendar" class="block text-center text-primary text-sm mt-4 hover:underline">
         Ver calendario completo →
       </a>
     </div>
 
     <!-- PRÓXIMAS ENTREGAS -->
-     <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
+    <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Detalles Próximas Entregas</h3>
-      
+
       @if (ordersService.todayOrdersSorted().length > 0) {
         <div class="space-y-4 max-h-[500px] overflow-y-auto">
           @for (order of ordersService.todayOrdersSorted().slice(0, 5); track order._id) {
-            <article class="p-3 bg-background rounded-lg border-l-4"
+            <article
+              class="p-3 bg-background rounded-lg border-l-4"
               [class.border-l-success]="order.status === 'confirmed'"
               [class.border-l-secondary]="order.status === 'pending'"
-              [class.border-l-primary]="order.status === 'delivered'">
-              
+              [class.border-l-primary]="order.status === 'delivered'"
+            >
               <!-- Header -->
               <div class="flex items-center justify-between mb-2">
                 <p class="font-semibold text-text">#{{ ordersService.getShortId(order._id) }}</p>
-                <span 
-                  class="px-2 py-1 text-xs rounded-full"
-                  [class]="getStatusBadgeClasses(order.status)">
+                <span class="px-2 py-1 text-xs rounded-full" [class]="getStatusBadgeClasses(order.status)">
                   {{ getStatusLabel(order.status) }}
                 </span>
               </div>
@@ -106,18 +106,20 @@
                 <p class="text-text">👤 {{ order.customerName }}</p>
                 <p class="text-text/70">🕐 {{ order.deliveryTime }}</p>
                 <p class="text-text/70">📍 {{ order.deliveryAddress }}</p>
-                @if(order.coordinates){
-                  <p class="text-success/50">Coordenadas OK: {{ order.coordinates.lng }} - {{ order.coordinates.lat }} </p>
-                } @else {<p class="text-error/50">Sin coordenadas, precaución en el mapa.</p>}
+                @if (order.coordinates) {
+                  <p class="text-success/50">
+                    Coordenadas OK: {{ order.coordinates.lng }} - {{ order.coordinates.lat }}
+                  </p>
+                } @else {
+                  <p class="text-error/50">Sin coordenadas, precaución en el mapa.</p>
+                }
               </div>
 
               <!-- Items del pedido -->
               <div class="mb-2">
                 <ul class="text-sm space-y-1">
                   @for (item of order.items; track item.flowerId) {
-                    <li class="text-text/80">
-                      • {{ item.flowerName }} x{{ item.quantity }}
-                    </li>
+                    <li class="text-text/80">• {{ item.flowerName }} x{{ item.quantity }}</li>
                   }
                 </ul>
               </div>
@@ -140,7 +142,7 @@
 
     <div class="lg:col-span-1 bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Inventario</h3>
-      
+
       <div class="mb-4">
         <div class="flex items-center justify-between">
           <p class="text-text/70">Total modelos de ramos</p>
@@ -152,10 +154,11 @@
         @for (flower of flowersService.flowers(); track flower._id) {
           <div class="flex items-center justify-between p-2 bg-background rounded text-sm">
             <span class="text-text truncate flex-1">{{ flower.name }}</span>
-            <span 
+            <span
               class="text-xs font-medium ml-2 px-2 py-1 rounded text-white"
               [class.bg-error]="flower.stock < 5"
-              [class.bg-success]="flower.stock >= 5">
+              [class.bg-success]="flower.stock >= 5"
+            >
               {{ flower.stock }}
             </span>
           </div>

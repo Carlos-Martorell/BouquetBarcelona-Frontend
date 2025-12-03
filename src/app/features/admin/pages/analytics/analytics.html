@@ -34,14 +34,11 @@
 
   <!-- GRÁFICAS -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    
     <!-- Ventas últimos 7 días -->
     <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Ventas Últimos 7 Días</h3>
       <div class="h-64">
-        <app-sales-line-chart 
-          [labels]="last7DaysLabels()"
-          [data]="last7DaysSales()" />
+        <app-sales-line-chart [labels]="last7DaysLabels()" [data]="last7DaysSales()" />
       </div>
     </div>
 
@@ -49,10 +46,11 @@
     <div class="bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Estado de Pedidos</h3>
       <div class="h-64">
-        <app-orders-doughnut 
+        <app-orders-doughnut
           [labels]="ordersByStatus().labels"
           [data]="ordersByStatus().data"
-          [colors]="ordersByStatus().colors" />
+          [colors]="ordersByStatus().colors"
+        />
       </div>
     </div>
 
@@ -60,9 +58,7 @@
     <div class="lg:col-span-2 bg-white border border-border rounded-lg p-5 shadow-sm">
       <h3 class="text-lg font-semibold text-primary mb-4">Productos Más Vendidos</h3>
       <div class="h-64">
-        <app-products-bar-chart 
-          [labels]="topProducts().labels"
-          [data]="topProducts().data" />
+        <app-products-bar-chart [labels]="topProducts().labels" [data]="topProducts().data" />
       </div>
     </div>
   </div>

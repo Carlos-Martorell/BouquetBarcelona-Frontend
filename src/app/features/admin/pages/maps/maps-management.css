@@ -3,11 +3,9 @@
   height: 100%;
 }
 
-
 div[data-mapbox] {
   height: 100%;
 }
-
 
 :host ::ng-deep .mapboxgl-popup-content {
   border-radius: 8px;
@@ -19,4 +17,4 @@ div[data-mapbox] {
   font-size: 30px;
   color: var(--color-primary);
   outline: none;
-} 
+}

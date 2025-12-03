@@ -1,1 +1,169 @@
-<p>register works!</p>
+<!-- register.html -->
+<main class="min-h-screen flex items-center justify-center bg-background p-4" role="main">
+  
+  <div class="w-full max-w-md">
+    
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-primary mb-2" id="register-heading">
+        🌸 Crear cuenta
+      </h1>
+      <p class="text-text/70">Únete a Bouquet Barcelona</p>
+    </div>
+    
+    <form 
+      [formGroup]="registerForm" 
+      (ngSubmit)="onSubmit()" 
+      class="bg-white rounded-lg shadow-xl p-8 border border-border"
+      aria-labelledby="register-heading">
+      
+      <!-- Name -->
+      <div class="mb-6">
+        <label for="name" class="block text-text font-medium mb-2">
+          Nombre completo
+        </label>
+        <input 
+          id="name"
+          type="text" 
+          formControlName="name"
+          class="w-full px-4 py-3 border-2 border-border rounded-lg focus:border-primary focus:outline-none bg-background text-text transition-colors"
+          placeholder="Tu nombre"
+          aria-required="true"
+          aria-describedby="name-errors"
+        />
+        
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <p id="name-errors" role="alert" class="text-error text-sm mt-1">
+            @if (registerForm.get('name')?.errors?.['required']) {
+              El nombre es obligatorio
+            }
+            @if (registerForm.get('name')?.errors?.['minlength']) {
+              Mínimo 3 caracteres
+            }
+          </p>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="mb-6">
+        <label for="email" class="block text-text font-medium mb-2">
+          Email
+        </label>
+        <input 
+          id="email"
+          type="email" 
+          formControlName="email"
+          class="w-full px-4 py-3 border-2 border-border rounded-lg focus:border-primary focus:outline-none bg-background text-text transition-colors"
+          placeholder="tu@email.com"
+          aria-required="true"
+          aria-describedby="email-errors"
+        />
+        
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <p id="email-errors" role="alert" class="text-error text-sm mt-1">
+            @if (registerForm.get('email')?.errors?.['required']) {
+              El email es obligatorio
+            }
+            @if (registerForm.get('email')?.errors?.['email']) {
+              Email inválido
+            }
+          </p>
+        }
+      </div>
+      
+      <!-- Phone (opcional) -->
+      <div class="mb-6">
+        <label for="phone" class="block text-text font-medium mb-2">
+          Teléfono (opcional)
+        </label>
+        <input 
+          id="phone"
+          type="tel" 
+          formControlName="phone"
+          class="w-full px-4 py-3 border-2 border-border rounded-lg focus:border-primary focus:outline-none bg-background text-text transition-colors"
+          placeholder="+34 666 555 444"
+        />
+      </div>
+      
+      <!-- Password -->
+      <div class="mb-6">
+        <label for="password" class="block text-text font-medium mb-2">
+          Contraseña
+        </label>
+        <input 
+          id="password"
+          type="password" 
+          formControlName="password"
+          class="w-full px-4 py-3 border-2 border-border rounded-lg focus:border-primary focus:outline-none bg-background text-text transition-colors"
+          placeholder="Mínimo 6 caracteres"
+          aria-required="true"
+          aria-describedby="password-errors"
+        />
+        
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <p id="password-errors" role="alert" class="text-error text-sm mt-1">
+            @if (registerForm.get('password')?.errors?.['required']) {
+              La contraseña es obligatoria
+            }
+            @if (registerForm.get('password')?.errors?.['minlength']) {
+              Mínimo 6 caracteres
+            }
+          </p>
+        }
+      </div>
+      
+      <!-- Confirm Password -->
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-text font-medium mb-2">
+          Confirmar contraseña
+        </label>
+        <input 
+          id="confirmPassword"
+          type="password" 
+          formControlName="confirmPassword"
+          class="w-full px-4 py-3 border-2 border-border rounded-lg focus:border-primary focus:outline-none bg-background text-text transition-colors"
+          placeholder="Repite tu contraseña"
+          aria-required="true"
+          aria-describedby="confirm-errors"
+        />
+        
+        @if (registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched) {
+          <p id="confirm-errors" role="alert" class="text-error text-sm mt-1">
+            Las contraseñas no coinciden
+          </p>
+        }
+      </div>
+      
+      <!-- Error global (opcional) -->
+      @if (errorMessage()) {
+        <div role="alert" class="mb-4 p-3 bg-error/10 border border-error text-error rounded-lg">
+          {{ errorMessage() }}
+        </div>
+      }
+      
+      <!-- Submit -->
+      <button 
+        type="submit" 
+        [disabled]="loading()"
+        class="w-full btn-primary text-lg"
+      >
+        @if (loading()) {
+          ⏳ Creando cuenta...
+        } @else {
+          Crear cuenta
+        }
+      </button>
+      
+      <!-- Link a login -->
+      <div class="mt-6 text-center">
+        <p class="text-text/70">
+          ¿Ya tienes cuenta? 
+          <a routerLink="/login" class="text-primary hover:text-secondary font-semibold transition-colors">
+            Inicia sesión aquí
+          </a>
+        </p>
+      </div>
+      
+    </form>
+  </div>
+  
+</main>

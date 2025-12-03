@@ -1,41 +1,29 @@
-
 @if (formService.isOpen()) {
-  <div 
-    class="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
-    (click)="close()">
-    
-    <div 
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4" (click)="close()">
+    <div
       class="bg-white rounded-xl max-w-3xl w-full max-h-[98vh] flex flex-col shadow-2xl"
-      (click)="$event.stopPropagation()">
-      
+      (click)="$event.stopPropagation()"
+    >
       <header class="flex justify-between items-center p-4 border-b border-border">
         <h2 class="text-2xl font-bold text-primary">
           {{ formService.editingOrderId() ? 'Editar Pedido' : 'Nuevo Pedido' }}
         </h2>
-        <button 
-          (click)="close()" 
-          class="text-text/70 hover:text-text text-3xl leading-none">
-          ×
-        </button>
+        <button (click)="close()" class="text-text/70 hover:text-text text-3xl leading-none">×</button>
       </header>
 
-      <form 
-        [formGroup]="orderForm" 
-        (ngSubmit)="onSubmit()" 
-        class="p-4 overflow-y-auto flex-1">
-        
+      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="p-4 overflow-y-auto flex-1">
         <section class="mb-4">
           <h3 class="text-lg font-semibold text-primary mb-4">👤 Datos del Cliente</h3>
-          
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
             <div class="flex flex-col gap-2">
               <label class="font-medium text-text text-sm">Nombre *</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 formControlName="customerName"
-                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-              
+                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+
               @if (hasError('customerName')) {
                 <span class="text-error text-xs">{{ getError('customerName') }}</span>
               }
@@ -43,11 +31,12 @@
 
             <div class="flex flex-col gap-2">
               <label class="font-medium text-text text-sm">Teléfono *</label>
-              <input 
-                type="tel" 
+              <input
+                type="tel"
                 formControlName="customerPhone"
-                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-              
+                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+
               @if (hasError('customerPhone')) {
                 <span class="text-error text-xs">{{ getError('customerPhone') }}</span>
               }
@@ -55,11 +44,12 @@
 
             <div class="flex flex-col gap-2 md:col-span-2">
               <label class="font-medium text-text text-sm">Email *</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 formControlName="customerEmail"
-                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-              
+                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+
               @if (hasError('customerEmail')) {
                 <span class="text-error text-xs">{{ getError('customerEmail') }}</span>
               }
@@ -69,23 +59,26 @@
 
         <section class="mb-8">
           <h3 class="text-lg font-semibold text-primary mb-4">📍 Datos de Entrega</h3>
-          
+
           <div class="flex flex-col gap-2 relative mb-4">
             <label class="font-medium text-text text-sm">Dirección *</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               formControlName="deliveryAddress"
               (input)="onAddressInput($event)"
               placeholder="Escribe una dirección..."
-              class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-            
+              class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+            />
 
             @if (addressSuggestions().length > 0) {
-              <ul class="absolute top-full left-0 right-0 bg-white border border-border rounded-md mt-1 max-h-48 overflow-y-auto z-10 shadow-lg">
+              <ul
+                class="absolute top-full left-0 right-0 bg-white border border-border rounded-md mt-1 max-h-48 overflow-y-auto z-10 shadow-lg"
+              >
                 @for (suggestion of addressSuggestions(); track suggestion.id) {
-                  <li 
+                  <li
                     (click)="selectAddress(suggestion)"
-                    class="px-3 py-3 cursor-pointer text-sm hover:bg-background transition-colors">
+                    class="px-3 py-3 cursor-pointer text-sm hover:bg-background transition-colors"
+                  >
                     {{ suggestion.place_name }}
                   </li>
                 }
@@ -93,29 +86,30 @@
             }
 
             <div class="flex flex-col gap-2">
-                <label class="font-medium text-text text-sm">Detalles (piso, puerta...)</label>
-                <input 
-                    type="text" 
-                    formControlName="deliveryDetails"
-                    placeholder="Ej: Piso 3, Puerta B"
-                    class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+              <label class="font-medium text-text text-sm">Detalles (piso, puerta...)</label>
+              <input
+                type="text"
+                formControlName="deliveryDetails"
+                placeholder="Ej: Piso 3, Puerta B"
+                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
             </div>
-            
+
             @if (hasError('deliveryAddress')) {
               <span class="text-error text-xs">{{ getError('deliveryAddress') }}</span>
             }
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
             <div class="flex flex-col gap-2">
               <label class="font-medium text-text text-sm">Fecha de entrega *</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 formControlName="deliveryDate"
                 [min]="minDate"
-                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-              
+                class="px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+
               @if (hasError('deliveryDate')) {
                 <span class="text-error text-xs">{{ getError('deliveryDate') }}</span>
               }
@@ -123,13 +117,13 @@
 
             <div class="flex flex-col gap-2">
               <label class="font-medium text-text text-sm">Horario *</label>
-              
-                <select formControlName="deliveryTime">
-                    <option value="" disabled selected>Selecciona horario...</option>
-                    @for (slot of timeSlots; track slot.value) {
-                        <option [value]="slot.value">{{ slot.label }}</option>
-                    }
-                </select>
+
+              <select formControlName="deliveryTime">
+                <option value="" disabled selected>Selecciona horario...</option>
+                @for (slot of timeSlots; track slot.value) {
+                  <option [value]="slot.value">{{ slot.label }}</option>
+                }
+              </select>
               @if (hasError('deliveryTime')) {
                 <span class="text-error text-xs">{{ getError('deliveryTime') }}</span>
               }
@@ -139,31 +133,32 @@
 
         <section class="mb-8">
           <h3 class="text-lg font-semibold text-primary mb-4">🌸 Productos</h3>
-          
+
           <div class="flex gap-3 mb-4">
-            <select 
+            <select
               [(ngModel)]="selectedFlowerId"
-              [ngModelOptions]="{standalone: true}"
-              class="flex-1 px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+              [ngModelOptions]="{ standalone: true }"
+              class="flex-1 px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+            >
               <option value="" disabled selected>Selecciona un ramo...</option>
               @for (flower of availableFlowers(); track flower._id) {
-                <option [value]="flower._id">
-                  {{ flower.name }} - {{ flower.price }}€
-                </option>
+                <option [value]="flower._id">{{ flower.name }} - {{ flower.price }}€</option>
               }
             </select>
 
-            <input 
-              type="number" 
+            <input
+              type="number"
               [(ngModel)]="selectedQuantity"
-              [ngModelOptions]="{standalone: true}"
+              [ngModelOptions]="{ standalone: true }"
               min="1"
-              class="w-20 px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+              class="w-20 px-3.5 py-2.5 border border-border rounded-md text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+            />
 
-            <button 
+            <button
               type="button"
               (click)="addProduct()"
-              class="px-4 py-2.5 bg-success text-white rounded-md text-sm font-medium hover:bg-success/90 transition-colors">
+              class="px-4 py-2.5 bg-success text-white rounded-md text-sm font-medium hover:bg-success/90 transition-colors"
+            >
               + Añadir
             </button>
           </div>
@@ -176,10 +171,11 @@
                     <span class="text-sm">{{ item.value.flowerName }} x{{ item.value.quantity }}</span>
                     <div class="flex items-center gap-3">
                       <span class="font-semibold text-sm">{{ item.value.price * item.value.quantity }}€</span>
-                      <button 
+                      <button
                         type="button"
                         (click)="removeProduct($index)"
-                        class="text-error hover:text-error/80 transition-colors">
+                        class="text-error hover:text-error/80 transition-colors"
+                      >
                         🗑️
                       </button>
                     </div>
@@ -197,29 +193,34 @@
 
         <section class="mb-4">
           <h3 class="text-lg font-semibold text-primary mb-4">📝 Notas (opcional)</h3>
-          <textarea 
+          <textarea
             formControlName="notes"
             rows="3"
             placeholder="Detalles adicionales..."
-            class="w-full px-3.5 py-2.5 border border-border rounded-md text-sm resize-none focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+            class="w-full px-3.5 py-2.5 border border-border rounded-md text-sm resize-none focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          ></textarea>
         </section>
       </form>
 
       <footer class="flex justify-end gap-3 p-6 border-t border-border">
-        <button 
+        <button
           type="button"
           (click)="close()"
-          class="px-5 py-2.5 border border-border rounded-md text-sm font-medium hover:bg-background transition-colors">
+          class="px-5 py-2.5 border border-border rounded-md text-sm font-medium hover:bg-background transition-colors"
+        >
           Cancelar
         </button>
-        <button 
+        <button
           type="submit"
           (click)="onSubmit()"
           [disabled]="orderForm.invalid || isSubmitting()"
-          class="px-5 py-2.5 bg-primary text-white rounded-md text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          class="px-5 py-2.5 bg-primary text-white rounded-md text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           @if (isSubmitting()) {
             <span class="flex items-center justify-center gap-2">
-              <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <span
+                class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+              ></span>
               Guardando...
             </span>
           } @else {

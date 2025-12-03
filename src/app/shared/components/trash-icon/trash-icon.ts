@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styles: `
     :host {
       display: inline-block;
-      width: 20px; 
+      width: 20px;
       height: 20px;
     }
   `,

@@ -8,45 +8,44 @@ import { environment } from '@env/environments';
   providedIn: 'root',
 })
 export class FlowersService {
+  private readonly apiUrlLH = 'http://localhost:3000/api/flowers';
+  private readonly apiUrl = `${environment.apiUrl}/api/flowers`;
 
-private readonly apiUrlLH = 'http://localhost:3000/api/flowers'
-private readonly apiUrl = `${environment.apiUrl}/api/flowers`;
+  private flowersSignal = signal<Flower[]>([]);
 
-private flowersSignal = signal<Flower[]> ([])
+  readonly flowers = this.flowersSignal.asReadonly();
 
-readonly flowers = this.flowersSignal.asReadonly()
+  constructor(private http: HttpClient) {}
 
-constructor(private http:HttpClient) {}
+  getAll(): Observable<Flower[]> {
+    return this.http
+      .get<Flower[]>(this.apiUrl)
+      .pipe(tap(flowers => this.flowersSignal.set(flowers)));
+  }
 
-getAll(): Observable<Flower[]> { 
-  return this.http.get<Flower[]>(this.apiUrl).pipe(
-    tap(flowers => this.flowersSignal.set(flowers))
-  )
-}
-  
-getOne(id: string): Observable<Flower>{
-  return this.http.get<Flower>(`${this.apiUrl}/${id}`)
-}
+  getOne(id: string): Observable<Flower> {
+    return this.http.get<Flower>(`${this.apiUrl}/${id}`);
+  }
 
-create(flower: CreateFlower): Observable<Flower>{
-  return this.http.post<Flower>(this.apiUrl, flower).pipe(
-    tap(newFlower => this.flowersSignal.update(flowers => [...flowers, newFlower]))
-  )
-}
+  create(flower: CreateFlower): Observable<Flower> {
+    return this.http
+      .post<Flower>(this.apiUrl, flower)
+      .pipe(tap(newFlower => this.flowersSignal.update(flowers => [...flowers, newFlower])));
+  }
 
-update(id: string, flower: UpdateFlower): Observable<Flower>{
-  return this.http.patch<Flower>(`${this.apiUrl}/${id}`, flower).pipe(
-    tap(updateFlower => this.flowersSignal.update(flowers => flowers.map(
-      f => f._id === id ? updateFlower : f
-    )))
-  )
-}
+  update(id: string, flower: UpdateFlower): Observable<Flower> {
+    return this.http
+      .patch<Flower>(`${this.apiUrl}/${id}`, flower)
+      .pipe(
+        tap(updateFlower =>
+          this.flowersSignal.update(flowers => flowers.map(f => (f._id === id ? updateFlower : f)))
+        )
+      );
+  }
 
-delete(id: string): Observable<void>{
-  return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-    tap(() =>
-      this.flowersSignal.update(flower => flower.filter(f => f._id !== id))
-    )
-  )}
-
+  delete(id: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(tap(() => this.flowersSignal.update(flower => flower.filter(f => f._id !== id))));
+  }
 }

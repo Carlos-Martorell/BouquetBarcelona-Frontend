@@ -3,8 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NotificationService } from './notification';
 
 describe('Notification', () => {
-  let service: NotificationService
-  ;
+  let service: NotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

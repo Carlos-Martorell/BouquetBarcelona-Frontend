@@ -1,0 +1,36 @@
+<!-- home.html - CORREGIDO -->
+<div class="min-h-screen flex items-center justify-center bg-background p-8">
+  <div class="text-center">
+    <h1 class="text-4xl font-bold text-primary mb-8">🌸 Bouquet Barcelona</h1>
+    
+    <p class="text-2xl mb-8">Hello there!!!!!</p>
+    
+    @if (authService.isLoggedIn()) {
+      <p class="mb-4">Usuario: {{ authService.currentUser()?.name }}</p>
+      <p class="mb-4">Rol: {{ authService.currentUser()?.role }}</p>
+      
+      <div class="flex gap-4 justify-center">
+        @if (authService.isAdmin()) {
+          <button [routerLink]="['/admin']" class="btn-primary">
+            Panel Admin
+          </button>
+        }
+        
+        <button (click)="onLogout()" class="btn-secondary bg-error">
+          Cerrar sesión
+        </button>
+      </div>
+    } @else {
+      <p class="mb-8">Try login or register</p>
+      
+      <div class="flex gap-4 justify-center">
+        <button [routerLink]="['/login']" class="btn-primary">
+          Iniciar sesión
+        </button>
+        <button [routerLink]="['/register']" class="btn-secondary bg-secondary">
+          Registrarse
+        </button>
+      </div>
+    }
+  </div>
+</div>

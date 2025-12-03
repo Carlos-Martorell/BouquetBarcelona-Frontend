@@ -18,22 +18,22 @@ export class Dashboard {
     this.flowersService.getAll().subscribe();
   }
 
-    getStatusBadgeClasses(status: string): string {
+  getStatusBadgeClasses(status: string): string {
     const classes: Record<string, string> = {
       pending: 'bg-secondary text-text',
       confirmed: 'bg-success text-white',
       delivered: 'bg-primary text-white',
-      cancelled: 'bg-error text-white'
+      cancelled: 'bg-error text-white',
     };
-  return classes[status] || 'bg-secondary text-text';
-}
+    return classes[status] || 'bg-secondary text-text';
+  }
 
   getStatusLabel(status: string): string {
     const labels: Record<string, string> = {
       pending: 'Pendiente',
       confirmed: 'Confirmado',
       delivered: 'Entregado',
-      cancelled: 'Cancelado'
+      cancelled: 'Cancelado',
     };
     return labels[status] || status;
   }

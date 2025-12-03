@@ -1,32 +1,27 @@
-
 <section class="container mx-auto p-6">
-
   <header class="mb-8 flex items-center justify-between gap-4">
     <div>
       <h1 class="text-3xl font-bold text-primary">Gestión de Pedidos</h1>
       <p class="text-text/70">Total: {{ orderCount() }} pedidos</p>
     </div>
-    
-    <button 
-      (click)="openCreateModal()"
-      class="btn-primary px-6 py-3">
-      + Nuevo Pedido
-    </button>
+
+    <button (click)="openCreateModal()" class="btn-primary px-6 py-3">+ Nuevo Pedido</button>
   </header>
 
   <div id="filtros" class="mb-6 flex flex-col md:flex-row gap-4">
-  
-    <input 
+    <input
       type="text"
       placeholder="Buscar por nombre, email o dirección..."
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
-      class="flex-1 px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-    
-    <select 
+      class="flex-1 px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+    />
+
+    <select
       [value]="selectedStatus()"
       (change)="selectedStatus.set($any($event.target).value)"
-      class="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+      class="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+    >
       <option value="all">Todos los estados</option>
       <option value="pending">Pendientes</option>
       <option value="confirmed">Confirmados</option>
@@ -44,14 +39,10 @@
 
   @if (errorMessage()) {
     <div class="bg-error/10 border border-error p-6 rounded-lg flex-1 text-center">
-        <span class="text-text text-2xl">⚠️</span>
-        <p class="font-bold text-text/80 mb-1">Oh, algo ha fallado...</p>
-        <p class="text-text mb-3">{{ errorMessage() }}</p>
-        <button 
-            (click)="loadOrders()"
-            class="mt-3 btn-secondary bg-error">
-            Reintentar
-        </button>
+      <span class="text-text text-2xl">⚠️</span>
+      <p class="font-bold text-text/80 mb-1">Oh, algo ha fallado...</p>
+      <p class="text-text mb-3">{{ errorMessage() }}</p>
+      <button (click)="loadOrders()" class="mt-3 btn-secondary bg-error">Reintentar</button>
     </div>
   }
 
@@ -65,7 +56,6 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @for (order of filteredOrders(); track order._id) {
           <article class="bg-white border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
-            
             <!-- Header del pedido -->
             <div class="flex items-start justify-between mb-4">
               <div>
@@ -73,35 +63,33 @@
                 <p class="text-sm text-text/70">{{ order.customerPhone }}</p>
                 <p class="text-sm text-text/70">{{ order.customerEmail }}</p>
               </div>
-              
+
               <!-- Estado -->
-              <span 
-                class="px-3 py-1 rounded-full text-sm font-semibold"
-                [class]="getStatusColor(order.status)">
+              <span class="px-3 py-1 rounded-full text-sm font-semibold" [class]="getStatusColor(order.status)">
                 {{ getStatusLabel(order.status) }}
               </span>
             </div>
 
             <!-- Detalles de entrega -->
             <div class="mb-4 space-y-2">
-                <p class="text-sm">
-                    <span class="font-semibold">📍 Dirección:</span> {{ order.deliveryAddress }}
-                    @if (order.deliveryDetails) {
-                      <span class="text-text/70"> - {{ order.deliveryDetails }}</span>
-                    }
-                </p>
-                <p class="text-sm ml-6">
-                    @if(order.coordinates){
-                        <p class="text-text/50">Coordenadas OK: {{ order.coordinates.lng }} - {{ order.coordinates.lat }} </p>
-                    } @else {<p class="text-error/80">Sin coordenadas, precaución en el mapa.</p>}
-                </p>
               <p class="text-sm">
-                <span class="font-semibold">📅 Fecha:</span> {{ order.deliveryDate | date:'dd/MM/yyyy' }}
+                <span class="font-semibold">📍 Dirección:</span> {{ order.deliveryAddress }}
+                @if (order.deliveryDetails) {
+                  <span class="text-text/70"> - {{ order.deliveryDetails }}</span>
+                }
+              </p>
+              <p class="text-sm ml-6">
+                @if (order.coordinates) {
+                  <p class="text-text/50">Coordenadas OK: {{ order.coordinates.lng }} - {{ order.coordinates.lat }}</p>
+                } @else {
+                  <p class="text-error/80">Sin coordenadas, precaución en el mapa.</p>
+                }
+              </p>
+              <p class="text-sm">
+                <span class="font-semibold">📅 Fecha:</span> {{ order.deliveryDate | date: 'dd/MM/yyyy' }}
               </p>
 
-              <p class="text-sm">
-                <span class="font-semibold">🕐 Hora:</span> {{ order.deliveryTime }}
-              </p>
+              <p class="text-sm"><span class="font-semibold">🕐 Hora:</span> {{ order.deliveryTime }}</p>
             </div>
 
             <!-- Items del pedido -->
@@ -109,9 +97,7 @@
               <p class="font-semibold text-sm mb-2">🌸 Productos:</p>
               <ul class="space-y-1">
                 @for (item of order.items; track item.flowerId) {
-                  <li class="text-sm text-text/80">
-                    • {{ item.flowerName }} x{{ item.quantity }} - {{ item.price }}€
-                  </li>
+                  <li class="text-sm text-text/80">• {{ item.flowerName }} x{{ item.quantity }} - {{ item.price }}€</li>
                 }
               </ul>
             </div>
@@ -120,47 +106,44 @@
             <div class="mb-4 pt-3 border-t border-border">
               <p class="text-lg font-bold text-primary">Total: {{ getCalculatedTotal(order) }}€</p>
               @if (order.notes) {
-                <p class="text-sm text-text/70 mt-2">
-                  <span class="font-semibold">📝 Notas:</span> {{ order.notes }}
-                </p>
+                <p class="text-sm text-text/70 mt-2"><span class="font-semibold">📝 Notas:</span> {{ order.notes }}</p>
               } @else {
-                <p class="text-sm text-text/70">
-                  Sin notas en el pedido
-                </p>
+                <p class="text-sm text-text/70">Sin notas en el pedido</p>
               }
             </div>
 
             <!-- Acciones -->
             <div class="flex flex-wrap gap-2 justify-between">
               <!-- Cambiar estado rápido -->
-               <div class="flex flex-wrap gap-2 ">
-              @if (order.status === 'pending') {
-                <button 
-                  (click)="updateStatus(order._id, 'confirmed')"
-                  class="btn-secondary bg-success text-white text-sm px-3 py-1">
-                  ✓ Confirmar
+              <div class="flex flex-wrap gap-2">
+                @if (order.status === 'pending') {
+                  <button
+                    (click)="updateStatus(order._id, 'confirmed')"
+                    class="btn-secondary bg-success text-white text-sm px-3 py-1"
+                  >
+                    ✓ Confirmar
+                  </button>
+                }
+                @if (order.status === 'confirmed') {
+                  <button
+                    (click)="updateStatus(order._id, 'delivered')"
+                    class="btn-secondary bg-primary text-white text-sm px-3 py-1"
+                  >
+                    ✓ Marcar entregado
+                  </button>
+                }
+
+                <!-- Editar -->
+                <button (click)="openEditModal(order._id)" class="btn-secondary bg-accent text-sm px-3 py-1">
+                  <app-edit-icon class="align-middle" />
                 </button>
-              }
-              @if (order.status === 'confirmed') {
-                <button 
-                  (click)="updateStatus(order._id, 'delivered')"
-                  class="btn-secondary bg-primary text-white text-sm px-3 py-1">
-                  ✓ Marcar entregado
-                </button>
-              }
-              
-              <!-- Editar -->
-              <button 
-                (click)="openEditModal(order._id)"
-                class="btn-secondary bg-accent text-sm px-3 py-1">
-                <app-edit-icon class="align-middle" />
-              </button>
               </div>
               <!-- Eliminar -->
-              <button 
+              <button
                 (click)="deleteOrder(order._id, order.customerName)"
-                class="btn-secondary bg-error text-white text-sm px-3 py-1">
-                <app-trash-icon class="mt-1.5"/>
+                class="btn-secondary bg-error text-white text-sm px-3 py-1"
+              >
+                <app-trash-icon class="mt-1.5" />
               </button>
             </div>
           </article>
@@ -168,7 +151,6 @@
       </div>
     }
   }
-
 
   <app-order-form />
 </section>

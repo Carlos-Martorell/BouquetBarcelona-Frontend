@@ -4,17 +4,16 @@ import { computed, inject, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class FlowerFormService {
-
   private isFormOpenSignal = signal(false);
-  private editingFlowerIdSignal = signal<string|null>(null);
-  readonly isFormOpen = this.isFormOpenSignal.asReadonly()
-  readonly editindFlowerId = this.editingFlowerIdSignal.asReadonly()
+  private editingFlowerIdSignal = signal<string | null>(null);
+  readonly isFormOpen = this.isFormOpenSignal.asReadonly();
+  readonly editindFlowerId = this.editingFlowerIdSignal.asReadonly();
 
-  readonly isEditing = computed(() => this.editindFlowerId() !== null)
-  readonly isCreating = computed(() => this.editindFlowerId() == null)
+  readonly isEditing = computed(() => this.editindFlowerId() !== null);
+  readonly isCreating = computed(() => this.editindFlowerId() == null);
 
-  readonly modalTitle = computed(() => this.isEditing()?'Editar ramo': 'Crear nuevo ramo');
-  readonly submitButtonText = computed(() => this.isEditing()?'Actualizar ramo':'Crear ramo')
+  readonly modalTitle = computed(() => (this.isEditing() ? 'Editar ramo' : 'Crear nuevo ramo'));
+  readonly submitButtonText = computed(() => (this.isEditing() ? 'Actualizar ramo' : 'Crear ramo'));
 
   openForCreate() {
     this.isFormOpenSignal.set(true);
@@ -28,8 +27,7 @@ export class FlowerFormService {
   close() {
     this.isFormOpenSignal.set(false);
     setTimeout(() => {
-    this.editingFlowerIdSignal.set(null);
+      this.editingFlowerIdSignal.set(null);
     }, 300);
   }
-  
 }

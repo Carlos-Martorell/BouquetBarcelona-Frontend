@@ -1,40 +1,49 @@
 // orders-doughnut.ts
-import { Component, ElementRef, input, OnInit, viewChild, effect, OnDestroy, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  input,
+  OnInit,
+  viewChild,
+  effect,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
 import { Chart, ChartConfiguration } from 'chart.js/auto';
 
 @Component({
   selector: 'app-orders-doughnut',
   standalone: true,
   template: '<canvas #chart></canvas>',
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-  `]
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    `,
+  ],
 })
 export class OrdersDoughnut implements AfterViewInit, OnDestroy {
-  
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('chart');
-  
+
   labels = input<string[]>([]);
   data = input<number[]>([]);
   colors = input<string[]>([]);
 
   private chart?: Chart;
 
-   private chartEffect = effect(() => {
-  this.updateChart();
-});
+  private chartEffect = effect(() => {
+    this.updateChart();
+  });
   ngAfterViewInit(): void {
-   this.updateChart();
+    this.updateChart();
   }
-  
 
   private updateChart(): void {
     const canvas = this.chartElement()?.nativeElement;
@@ -48,12 +57,14 @@ export class OrdersDoughnut implements AfterViewInit, OnDestroy {
       type: 'doughnut',
       data: {
         labels: this.labels(),
-        datasets: [{
-          data: this.data(),
-          backgroundColor: this.colors(),
-          borderWidth: 2,
-          borderColor: '#fff'
-        }]
+        datasets: [
+          {
+            data: this.data(),
+            backgroundColor: this.colors(),
+            borderWidth: 2,
+            borderColor: '#fff',
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -64,12 +75,12 @@ export class OrdersDoughnut implements AfterViewInit, OnDestroy {
             labels: {
               padding: 10,
               font: {
-                size: 12
-              }
-            }
-          }
-        }
-      }
+                size: 12,
+              },
+            },
+          },
+        },
+      },
     };
 
     this.chart = new Chart(canvas, config);
