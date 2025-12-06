@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '@core/services/auth/auth';
 
 @Component({
   selector: 'app-admin-layout',
@@ -18,4 +19,11 @@ export class AdminLayout {
     { path: '/admin/analytics', icon: '📈', label: 'Análisis' },
     { path: '/admin/orders', icon: '📦', label: 'Gestión de pedidos' },
   ];
+
+  private authService = inject(AuthService);
+
+  // Método que será llamado por el botón
+  onLogout() {
+    this.authService.logout();
+  }
 }

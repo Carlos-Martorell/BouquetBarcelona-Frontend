@@ -1,11 +1,11 @@
 <section class="container mx-auto">
-  <header class="mt-8 mb-8 px-6 flex items-center justify-between gap-4">
+  <header class="mt-4 mb-8 px-6 flex flex-col lg:flex-row items-start gap-4 lg:items-center lg:justify-between">
     <div>
-      <h1 class="text-3xl font-bold mb-2 text-primary">Gestión de Ramos</h1>
-      <p class="text-text">Total de modelos: {{ flowerCount() }}</p>
+      <h1 class="text-3xl font-bold mb-2 text-primary whitespace-nowrap">Gestión de Ramos</h1>
+      <p class="text-text mb-2">Total de modelos: {{ flowerCount() }}</p>
     </div>
 
-    <button (click)="openCreateModal()" class="btn-primary px-8 py-4 text-lg">+ Nuevo Ramo</button>
+    <button (click)="openCreateModal()" class="btn-primary px-4 py-2 text-lg">+ Nuevo Ramo</button>
   </header>
 
   @if (isLoading()) {
@@ -71,12 +71,35 @@
               <span class="text-sm text-text/80">Stock: {{ flower.stock }}</span>
             </div>
 
+            <div class="mb-3 space-y-2">
             <div class="mb-4">
               <span class="inline-block bg-secondary/20 text-primary text-xs px-3 py-1 rounded-full font-medium">
-                {{ flower.category }}
+                {{ flower.category | titlecase }}
               </span>
             </div>
 
+            <div class="mb-3 flex flex-wrap gap-2">
+              <span class="badge badge-sm bg-accent/20 text-accent">
+                {{ flower.size | titlecase }}
+              </span>
+              <span class="badge badge-sm bg-secondary/20 text-secondary">
+                {{ flower.occasion | titlecase }}
+              </span>
+            </div>
+
+            <div class="flex flex-wrap gap-1">
+              @for (color of flower.colors.slice(0, 3); track color) {
+                <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                  {{ color | titlecase }}
+                </span>
+              }
+              @if (flower.colors.length > 3) {
+                <span class="text-xs text-text/50">
+                  +{{ flower.colors.length - 3 }}
+                </span>
+              }
+            </div>
+            </div>
             <div class="flex gap-4">
               <button (click)="openEditModal(flower._id)" class="flex-1 btn-secondary bg-secondary px-4 py-2">
                 <app-edit-icon class="align-middle mr-2" /> Editar

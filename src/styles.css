@@ -108,3 +108,25 @@ a,
 [ng-click] {
   cursor: pointer;
 }
+/* styles.css - AÑADIR AL FINAL */
+
+/* ==================== TOAST COLORS ==================== */
+.notification {
+  @apply rounded-lg shadow-xl border-2 px-6 py-4 font-medium;
+}
+
+.notification.success {
+  @apply bg-success/10 border-success text-success;
+}
+
+.notification.error {
+  @apply bg-error/10 border-error text-error;
+}
+
+.notification.info {
+  @apply bg-primary/10 border-primary text-primary;
+}
+
+.notification.warning {
+  @apply bg-accent/10 border-accent text-accent;
+}

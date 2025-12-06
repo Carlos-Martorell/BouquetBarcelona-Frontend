@@ -6,6 +6,10 @@ export interface Flower {
   category: string;
   images: string[];
   stock: number;
+  size: string;
+  colors: string[];
+  occasion: string;
+  careInstructions?: string;
 }
 
 export interface CreateFlower {
@@ -15,6 +19,10 @@ export interface CreateFlower {
   category: string;
   images: string[];
   stock: number;
+  size: string;
+  colors: string[];
+  occasion: string;
+  careInstructions?: string;
 }
 
 export interface UpdateFlower {
@@ -24,4 +32,8 @@ export interface UpdateFlower {
   category?: string;
   images?: string[];
   stock?: number;
+  size?: string;
+  colors?: string[];
+  occasion?: string;
+  careInstructions?: string;
 }

@@ -17,10 +17,11 @@ import {
   FormControl,
 } from '@angular/forms';
 import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-flower-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TitleCasePipe],
   templateUrl: './flower-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,6 +35,25 @@ export class FlowerForm implements OnInit {
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
   hasMinimImages = computed(() => this.imageUrlsArray.length >= 3);
+
+  readonly categories = [
+    'romántico',
+    'mediterráneo',
+    'botánico',
+    'silvestre',
+    'moderno'
+  ];
+
+  readonly sizes = ['pequeño', 'mediano', 'grande'];
+
+  readonly occasions = [
+    'Amor',
+    'Cumpleaños',
+    'Cacimiento',
+    'Agradecimiento',
+    'Pésame',
+    'Celebración'
+  ];
 
   constructor() {
     effect(() => {
@@ -63,6 +83,11 @@ export class FlowerForm implements OnInit {
         this.fb.control('', Validators.required),
         this.fb.control('', Validators.required),
       ]),
+      size: ['mediano', Validators.required],
+      colors: this.fb.array([this.fb.control('', Validators.required)]), 
+      occasion: ['amor', Validators.required],
+      careInstructions: ['']
+      
     });
   }
 
@@ -82,6 +107,20 @@ export class FlowerForm implements OnInit {
     }
   }
 
+  get colorsArray(): FormArray<FormControl<string | null>> {
+    return this.flowerForm.get('colors') as FormArray<FormControl<string | null>>;
+  }
+
+  addColorField() {
+    this.colorsArray.push(this.fb.control('', Validators.required));
+  }
+
+  removeColorField(index: number) {
+    if (this.colorsArray.length > 1) {
+      this.colorsArray.removeAt(index);
+    }
+  }
+
   loadFlowerData(id: string) {
     const flower = this.flowersService.flowers().find(f => f._id === id);
 
@@ -92,6 +131,9 @@ export class FlowerForm implements OnInit {
         description: flower.description,
         category: flower.category,
         stock: flower.stock,
+        size: flower.size,
+        occasion: flower.occasion,
+        careInstructions: flower.careInstructions
       });
       this.imageUrlsArray.clear();
       flower.images.forEach(url => {
@@ -99,6 +141,13 @@ export class FlowerForm implements OnInit {
       });
       while (this.imageUrlsArray.length < 3) {
         this.imageUrlsArray.push(this.fb.control('', Validators.required));
+      }
+      this.colorsArray.clear();
+      flower.colors.forEach(color => {
+        this.colorsArray.push(this.fb.control(color, Validators.required));
+      });
+      if (this.colorsArray.length === 0) {
+        this.colorsArray.push(this.fb.control('', Validators.required));
       }
     }
   }
@@ -112,11 +161,16 @@ export class FlowerForm implements OnInit {
       description: '',
       category: '',
       stock: 0,
+      size: '',
+      occasion: '',
+      careInstructions: '',
     });
     this.imageUrlsArray.clear();
+    this.colorsArray.clear();
     for (let i = 0; i < 3; i++) {
       this.imageUrlsArray.push(this.fb.control('', Validators.required));
     }
+    this.colorsArray.push(this.fb.control('', Validators.required));
     this.errorMessage.set(null);
   }
 
@@ -131,10 +185,18 @@ export class FlowerForm implements OnInit {
     const images = this.imageUrlsArray.value.filter(
       (url): url is string => url !== null && url.trim() !== ''
     );
+    const colors = this.colorsArray.value.filter(
+    (color): color is string => color !== null && color.trim() !== ''
+    );
     if (images.length < 3) {
       this.errorMessage.set('Debes añadir al menos 3 imagenes.');
       this.isSubmitting.set(false);
       return;
+    }
+    if (colors.length === 0) {
+      this.errorMessage.set('Debes añadir al menos 1 color.');
+      this.isSubmitting.set(false);
+    return;
     }
     const formData = {
       name: this.flowerForm.value.name,
@@ -143,6 +205,10 @@ export class FlowerForm implements OnInit {
       category: this.flowerForm.value.category,
       stock: this.flowerForm.value.stock,
       images: images,
+      size: this.flowerForm.value.size,
+      colors: colors,
+      occasion: this.flowerForm.value.occasion,
+      careInstructions: this.flowerForm.value.careInstructions || undefined
     };
 
     const flowerId = this.formService.editindFlowerId();

@@ -12,10 +12,11 @@ import { FlowerFormService } from '../../services/flower-form/flower-form';
 import { NotificationService } from '@core/services/toast/notification';
 import { TrashIcon } from '@shared/components/trash-icon/trash-icon';
 import { EditIcon } from '@shared/components/edit-icon/edit-icon';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-flowers-management',
-  imports: [FlowerForm, TrashIcon, EditIcon],
+  imports: [FlowerForm, TrashIcon, EditIcon, TitleCasePipe],
   templateUrl: './flowers-management.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
