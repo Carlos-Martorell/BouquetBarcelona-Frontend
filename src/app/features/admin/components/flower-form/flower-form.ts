@@ -18,10 +18,11 @@ import {
 } from '@angular/forms';
 import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
 import { TitleCasePipe } from '@angular/common';
+import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
 
 @Component({
   selector: 'app-flower-form',
-  imports: [ReactiveFormsModule, TitleCasePipe],
+  imports: [ReactiveFormsModule, TitleCasePipe, TrashIcon],
   templateUrl: './flower-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -74,10 +75,10 @@ export class FlowerForm implements OnInit {
   initForm() {
     this.flowerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      price: [0, [Validators.required, Validators.min(0.01)]],
+      price: ['', [Validators.required, Validators.min(0.01)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
       category: ['', Validators.required],
-      stock: [0, [Validators.required, Validators.min(0)]],
+      stock: ['', [Validators.required, Validators.min(0)]],
       imageUrls: this.fb.array([
         this.fb.control('', Validators.required),
         this.fb.control('', Validators.required),
@@ -119,6 +120,11 @@ export class FlowerForm implements OnInit {
     if (this.colorsArray.length > 1) {
       this.colorsArray.removeAt(index);
     }
+    else if (this.colorsArray.length === 1) {
+      const control = this.colorsArray.at(0); 
+      control.setValue('');
+      control.markAsUntouched(); 
+    }
   }
 
   loadFlowerData(id: string) {
@@ -157,10 +163,10 @@ export class FlowerForm implements OnInit {
 
     this.flowerForm.reset({
       name: '',
-      price: 0,
+      price: '',
       description: '',
       category: '',
-      stock: 0,
+      stock: '',
       size: '',
       occasion: '',
       careInstructions: '',
@@ -228,6 +234,7 @@ export class FlowerForm implements OnInit {
       this.flowersService.create(formData).subscribe({
         next: () => {
           this.isSubmitting.set(false);
+          this.resetForm();
           this.formService.close();
         },
         error: err => {
