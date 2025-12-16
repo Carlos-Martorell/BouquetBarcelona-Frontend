@@ -13,8 +13,8 @@ export interface Order {
   items: OrderItem[];
   total: number;
   status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
-  deliveryDate: string; // ISO string
-  deliveryTime: string; // "10:00-12:00"
+  deliveryDate: string; 
+  deliveryTime: string; 
   notes?: string;
   createdAt?: string;
   updatedAt?: string;

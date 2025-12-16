@@ -89,7 +89,7 @@ export class OrderForm implements AfterViewInit {
   initForm() {
     this.orderForm = this.fb.group({
       customerName: ['', Validators.required],
-      customerPhone: ['', Validators.required],
+      customerPhone: ['', Validators.required, Validators.pattern(/^[0-9]{9}$/)],
       customerEmail: ['', [Validators.required, Validators.email]],
       deliveryAddress: ['', Validators.required],
       deliveryDetails: [''],

@@ -14,17 +14,45 @@ body {
   padding: 0;
 }
 
-body {
-  /* Montserrat para el cuerpo y como fuente base */
+/* body {
   font-family: 'Montserrat', sans-serif;
 }
-/* Ejemplo para usar Cormorant en los títulos */
 h1,
 h2,
 h3,
 .font-display {
-  /* Cormorant Garamond para el estilo premium */
   font-family: 'Cormorant Upright', serif;
+} */
+
+/* BODY */
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: theme('colors.text'); /* si usas tailwind tokens */
+}
+
+/* DISPLAY / MARCA */
+.font-display,
+h1 {
+  font-family: 'Poiret One', cursive;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* TITULARES SECUNDARIOS */
+h2,
+h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* TEXTOS PEQUEÑOS */
+small,
+.text-muted {
+  font-weight: 400;
+  opacity: 0.8;
 }
 
 @theme {

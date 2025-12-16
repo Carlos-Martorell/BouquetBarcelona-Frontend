@@ -17,12 +17,11 @@ import {
   FormControl,
 } from '@angular/forms';
 import { FlowerFormService } from '@serv-admin/flower-form/flower-form';
-import { TitleCasePipe } from '@angular/common';
 import { TrashIcon } from "@shared/components/trash-icon/trash-icon";
 
 @Component({
   selector: 'app-flower-form',
-  imports: [ReactiveFormsModule, TitleCasePipe, TrashIcon],
+  imports: [ReactiveFormsModule, TrashIcon],
   templateUrl: './flower-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
